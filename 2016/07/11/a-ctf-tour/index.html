@@ -1,0 +1,583 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>一次 CTF 之旅</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content="CTF, 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+
+    
+    <meta name="description" content="有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结">
+    <meta property="og:description" content="有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="一次 CTF 之旅">
+    <meta property="og:url" content="/2016/07/11/a-ctf-tour/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      一次 CTF 之旅
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2016-07-11T07:35:59&#43;08:00">
+        
+   11, 2016
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结果很幸运组队时抱上了几个大腿进了决赛。本着绝不坑队友的原则，精心准备了一把。结果最后还是坑了，我那道 Android 逆向的题还是没有做出来。虽然比赛已经结束，但心有不甘，这周末又继续搞了两天这题，代码逆向和解题思路都搞的差不多，但是似乎 Native 层的代码理解有一点点偏差。昨晚 11 点多不得已向比赛组委会出题大神请教，解题方法居然没有我想的复杂，我还是太 Naive 了。</p>
+
+<p>首先介绍一下什么是 CTF。</p>
+
+<p>CTF（Capture The Flag）夺旗赛，在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。CTF 起源于 1996 年 DEFCON 全球黑客大会，以代替之前黑客们通过互相发起真实攻击进行技术比拼的方式。</p>
+
+<p>这次是公司第一次举办 CTF 的比赛。而我在这之前，对 CTF 也是了解甚少。组织这次比赛的是公司 T5 大神所在的实验室，本着学习的态度，就尝试报了名。刚好队里缺 Android 逆向的小伙伴，所有我就专攻 Android 题，其他题交给其他的小伙伴。</p>
+
+<p>由于是第一次举办，采用了比较初级的「解题模式」。主要分为几类：隐写、逆向、Web、Mobile。举个隐写的例子就明白了。比如让你在一个浏览器页面里找藏在里面的 Flag，只要查看源码：</p>
+
+<pre><code class="language-html">&lt;p&gt;
+找到第一个 Flag!
+&lt;!-- Flag{WelcomeToCTF} --&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p><code>WelcomeToCTF</code> 就是其中的 Flag。当然，这种属于最初级的题，更多的隐写 Flag 会藏在更深的地方，比如图片、MP3、PDF 等等文件里，你需要做各种数据抽离，找出其中的不同，最终发现写在里面的隐藏内容。</p>
+
+<p>对 CTF 有兴趣的同学可以自行去了解更多，这里不一一介绍了。一是我本身也专研不深，二是这次比赛我只搞了 Mobile 题。所以，接下来就只聊一聊 Mobile 题。</p>
+
+<p>Mobile 题主要是 Android 的逆向，Crack 破解或者是找出其中漏洞。同样举个简单的例子，比如破解一个需要序列号的 APP，通过逆向，你找到它里面判断序列号是否正确的地方，把判断条件改反，或者修改判断条件，让它永远返回 True。这样就简单的绕过了验证。</p>
+
+<p>而实际情况会比这种复杂的多。所以要掌握好 Android 逆向，需要了解 Android 虚拟机的原理及 Dalvik 指令集，熟悉 DEX 文件的格式及反汇编语言 smali。能读懂和理解 ARM 汇编（寄存器和各种寻址）。由于 Java 层的破解相对容易，很多 APP 会把关键功能放在 Android NDK 的 so 里。所以，分析反汇编的 so 代码也是必须要掌握的。</p>
+
+<p>Android 逆向主要分静态分析和动态调试。静态分析就是查看逆向的代码，找出其他的关键所在，然后修改代码，重新打包、签名，得到最终结果。动态调试是指使用工具动态调试 APP，可在运行时下断点，查看或修改寄存器的值，Dump 一段内存等等。</p>
+
+<p>常见的 Android 加壳过程就是通过 so 加载一个二进制文件，然后解密出真正的 DEX 文件。通过加壳，把真实的业务代码隐藏了起来，Java 层的逆向你看不到真实的业务逻辑代码，因为只有一个壳。破解的思路也很简单，动态调试 APP，运行到解密完 DEX 的地方（或者是定位到关键函数，比如加载新 DEX 的地方），将 DEX 文件所在的内存 Dump 出来，然后再去分析 Dump 出来的真实 DEX 文件。</p>
+
+<p>魔高一尺道高一丈。既然动态调试可以这么容易把隐藏的 DEX Dump 出来，那么反破解的方法就是加入「反调试」的逻辑。比如，不断检查 App 的 TracerID，一旦发现有人在调试它，就启动自毁程序。于是，动态调试的难度又增加了，这时候就需要用到「反反调试」。找出其中「反调试」的代码，通过静态分析，想尽一切办法绕过反调试。</p>
+
+<p>这其中过程说的似乎轻描淡写，实际操作起来却并非那么容易。我体验一段时间之后的感觉是，首先基础要扎实，上看得了 Java，下看得了 smali，C++，arm 汇编，其次，工具使用要熟练。已经很少有人徒手破解了，因为有很多现成的工具可用。比如：APKTool、jd-gui、IDA Pro…… 其中的 IDA Pro 堪称神器，熟练掌握 IDA Pro 几乎成功了一半（瞎说的，因为我不是很熟）。第三，要有敏锐的思路，分析出其中的关键路径，寻出破解的方法。</p>
+
+<p>基础方面，我恶补了《Android 软件安全与逆向分析》一书。写的确实好，讲的非常系统，入门的首选。我买的纸质书，看完的感受是看此类书还是纸质的比较好。比赛结束后又入了一本《漏洞战争》，最新出炉的安全大作，作者就是文章开头我提到的这次 CTF 组委会出题的大神。</p>
+
+<p>实践部分我做的就不好了，工具的不熟练使用成了我的一大瓶颈。首先是环境准备部分，我就入了一个大坑。搞 Android 逆向，使用手机真机调试是必不可少的，而且手机必须是 root 过的，同时必须准备好多个 Android API 版本的手机（因为有的题的 APK 对 API Level 有要求。）别人已经在破解调试了，而题目的 APP 在我的手机上正常跑起来却是一个问题。（汗~）</p>
+
+<p>当然，也是可以使用模拟器的。这又要说到我遇到的另外一个大坑，因为习惯了 Genymotion 模拟器（性能很好），然后发现动态调试使用的 android_server 在 Genymotion 里根本跑不起来。于是当初我就放弃了模拟器方案，最后在这周末的时候发现，使用 Google 原生的模拟器，选择 arm 版本的 SDK 就可以了！（哭~）</p>
+
+<p>当然，这都没什么。还有一个更大的坑。因为比赛我带的是我的 Mac，而破解工具大多数是在 Windows 里运行的。所以我就选择在 Mac 里装 Windows 虚拟机（VirtualBox），然后就掉坑里了。默认的 NAT 方式，虚拟机里是不能访问宿主机的，所以根本没办法进行动态调试。比赛之前我早有考虑，所以简单的切换到 Bridge 模式就可以解决。然而我还是太 Naive 了，公司里是不允许用 Bridge 方式的，使用后根本就上不了网。</p>
+
+<p>我不太可能把 Mac 再装个 Windows 双系统，而且我也不会那样做。最后，为了能在虚拟机里使用 IDA Pro 动态调试 Android，我折腾出如下方法：虚拟机同时设置 NAT 模式和 Host-Only 模式，NAT 模式是为了能够上网，Host-Only 模式是为了能访问宿主机器。有了 Host-Only 模式，可以访问到宿主机了，但是还是没办法直接连接到 android_server 的调试端口。</p>
+
+<p>原理是这样的，android_server 的调试端口 23946 是在手机上开启的，为了在 PC 上能连接这个端口，所有的教程都教你需要输入如下指令：</p>
+
+<pre><code>adb forward tcp:23946 tcp:23946
+</code></pre>
+
+<p>即，将 PC 机上的 23946 端口的数据全部转发到手机的 23946 端口上。在虚拟机的 IDA Pro 里，我直接设置主机的 IP 和端口，是无法连接上的，因为主机只负责转发来自 127.0.0.1 的 23946 端口的数据。于是，我拿出了 nginx 杀手锏，开启了一个监听端口 23950，然后配置成自动转发到本地的 127.0.0.1:23946 上：</p>
+
+<pre><code>stream {
+    upstream dbg_socket {
+        hash $remote_addr consistent;
+        server 127.0.0.1:23946;
+    }
+
+    server {
+       listen 23950;
+       proxy_connect_timeout 180s;
+       proxy_timeout 3600s;
+       proxy_pass dbg_socket;
+    }
+}
+</code></pre>
+
+<p>然后在 IDA Pro 里设主机的 IP 和端口 23950，it works!</p>
+
+<p>第一次参加 CTF 的我真是有点伤不起啊。<strong>如果再来一次，我会告诉自己，带上几台真机，放下你的 Mac，老老实实的带个 Windows 本子去吧。</strong></p>
+
+<p>至于解题思路方面，需要平时多关注一些安全相关的文章，同时要有开放性的思维。</p>
+
+<p>这就是我这次 CTF 之旅的血泪史，虽然最后我的成绩不尽人意，但还是收获满满。主要是队友给力，通过比赛，认识了一群 Nice、聪明、激情又好学的朋友，你可以想象我的队友在刚刷出题目 5 秒钟就告诉我们解出来了吗？这就是 CTF！</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/09/25/small-plan/" data-tooltip="小目标">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/06/19/podcasts/" data-tooltip="聊聊播客">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/09/25/small-plan/" data-tooltip="小目标">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/06/19/podcasts/" data-tooltip="聊聊播客">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+  
+
+
+
+    
+  </body>
+</html>
+

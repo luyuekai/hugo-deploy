@@ -1,0 +1,596 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>使用ThreadSanitizer线程检查工具</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content="ThreadSanitizer, TSan, 线程安全, 代码扫描, 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+
+    
+    <meta name="description" content="ThreadSanitizer又叫TSan，是一个检查线程Data Race的C/C&#43;&#43;工具。它集成在新版的gcc和clang中，通过编译时加-fsanitize=thread，可以在运行时检测出Data Race的问题。">
+    <meta property="og:description" content="ThreadSanitizer又叫TSan，是一个检查线程Data Race的C/C&#43;&#43;工具。它集成在新版的gcc和clang中，通过编译时加-fsanitize=thread，可以在运行时检测出Data Race的问题。">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="使用ThreadSanitizer线程检查工具">
+    <meta property="og:url" content="/2015/08/15/ThreadSanitizer/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="ThreadSanitizer又叫TSan，是一个检查线程Data Race的C/C&#43;&#43;工具。它集成在新版的gcc和clang中，通过编译时加-fsanitize=thread，可以在运行时检测出Data Race的问题。">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      使用ThreadSanitizer线程检查工具
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-15T00:00:00Z">
+        
+   15, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>ThreadSanitizer又叫TSan，是一个检查线程Data Race的C/C++工具。它集成在新版的gcc和clang中，通过编译时加-fsanitize=thread，可以在运行时检测出Data Race的问题。</p>
+
+<p></p>
+
+<p>ThreadSanitizer官网：<a href="https://code.google.com/p/thread-sanitizer">https://code.google.com/p/thread-sanitizer</a></p>
+
+<h3 id="data-race">Data Race</h3>
+
+<p><img src="http://7xlx3k.com1.z0.glb.clouddn.com/Data-race.jpg" alt="DataRace" /></p>
+
+<p>Data Race是指多个线程在没有正确加锁的情况下，同时访问同一块数据，并且至少有一个线程是写操作，对数据的读取和修改产生了竞争，从而导致各种不可预计的问题。</p>
+
+<p>Data Race的问题非常难查，Data Race一旦发生，结果是不可预期的，也许直接就Crash了，也许导致执行流程错乱了，也许把内存破坏导致之后某个时刻突然Crash了。</p>
+
+<h3 id="环境要求">环境要求</h3>
+
+<ol>
+<li>Linux x86_64，内核版本不要太旧。（经测试，公司旧的开发机Linux内核是2.6.16是跑不了的，新的tlinux内核3.10.0可以）</li>
+<li>gcc 4.8版本以上（clang也集成了，3.2版本以上）</li>
+</ol>
+
+<h3 id="官方示例">官方示例</h3>
+
+<pre><code class="language-cpp">$ cat simple_race.cc
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+ 
+int Global;
+ 
+void *Thread1(void *x) {
+  Global++;
+  return NULL;
+}
+ 
+void *Thread2(void *x) {
+  Global--;
+  return NULL;
+}
+ 
+int main() {
+  pthread_t t[2];
+  pthread_create(&amp;t[0], NULL, Thread1, NULL);
+  pthread_create(&amp;t[1], NULL, Thread2, NULL);
+  pthread_join(t[0], NULL);
+  pthread_join(t[1], NULL);
+}
+</code></pre>
+
+<p>上面的代码在不加锁的情况下，两个线程同时去修改Global变量，从而导致Data Race。使用gcc的-fsanitize=thread 编译，执行</p>
+
+<pre><code class="language-cpp">$ g++ simple_race.cc -fsanitize=thread -fPIE -pie -g
+$ ./a.out
+==================
+WARNING: ThreadSanitizer: data race (pid=26327)
+  Write of size 4 at 0x7f89554701d0 by thread T1:
+    #0 Thread1(void*) simple_race.cc:8 (exe+0x000000006e66)
+ 
+  Previous write of size 4 at 0x7f89554701d0 by thread T2:
+    #0 Thread2(void*) simple_race.cc:13 (exe+0x000000006ed6)
+ 
+  Thread T1 (tid=26328, running) created at:
+    #0 pthread_create tsan_interceptors.cc:683 (exe+0x00000001108b)
+    #1 main simple_race.cc:19 (exe+0x000000006f39)
+ 
+  Thread T2 (tid=26329, running) created at:
+    #0 pthread_create tsan_interceptors.cc:683 (exe+0x00000001108b)
+    #1 main simple_race.cc:20 (exe+0x000000006f63)
+==================
+ThreadSanitizer: reported 1 warnings
+</code></pre>
+
+<p>执行程序，如果发生Data Race，错误信息会直接输出出来。如果错误信息比较多，重定向输出流到文件里，慢慢分析：</p>
+
+<pre><code>$ ./a.out &gt;result.txt 2&gt;&amp;1
+</code></pre>
+
+<h3 id="关键要点">关键要点</h3>
+
+<ol>
+<li>除了加-fsanitize=thread外，一定要加-fPIE -pie。</li>
+<li>-g 是为了能显示文件名和行号。</li>
+<li>如果分生成obj(-c)和link两个步骤，每一步都加：thread -fPIE -pie -g，并且在link的时候加-ltsan</li>
+<li>只支持64位，最好指定编译64位(-m64)</li>
+<li>如果依赖其他静态库，其他静态库编译时必须指定-fPIC（如果不是请重编）</li>
+</ol>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/08/15/JekyllReadMore/" data-tooltip="使用Jekyll官方的ReadMore摘要功能">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/08/08/IDonnotCare/" data-tooltip="你说我是错的，那你最好证明你是对的">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/08/15/JekyllReadMore/" data-tooltip="使用Jekyll官方的ReadMore摘要功能">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/08/08/IDonnotCare/" data-tooltip="你说我是错的，那你最好证明你是对的">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+  
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,768 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>OpenSTA从入门到精通</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content=", 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+
+    
+    <meta name="description" content="OpenSTA 基于CORBA的分布式软件测试构架。使用OpenSTA，测试人员可以模拟大量的虚拟用户。OpenSTA的结果分析包括虚拟用户响应时间、we">
+    <meta property="og:description" content="OpenSTA 基于CORBA的分布式软件测试构架。使用OpenSTA，测试人员可以模拟大量的虚拟用户。OpenSTA的结果分析包括虚拟用户响应时间、we">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="OpenSTA从入门到精通">
+    <meta property="og:url" content="/2008/07/21/1248088/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="OpenSTA 基于CORBA的分布式软件测试构架。使用OpenSTA，测试人员可以模拟大量的虚拟用户。OpenSTA的结果分析包括虚拟用户响应时间、we">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      OpenSTA从入门到精通
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-07-21T00:00:00Z">
+        
+   21, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<p>OpenSTA 基于CORBA的分布式软件测试构架。使用OpenSTA，测试人员可以模拟大量的虚拟用户。OpenSTA的结果分析包括虚拟用户响应时间、web服务器的资源使用情况、数据库服务器的使用情况，可以精确的度量负载测试的结果。详细官方文档：<a href="http://www.opensta.org/docs/gsg/index.htm">OpenSTA教程</a></p>
+
+<h2 id="总括">总括</h2>
+
+<p><img src="http://images.cnblogs.com/cnblogs_com/coderzh/OpenSTABlack.jpeg" alt="" /></p>
+
+<h2 id="本文内容">本文内容</h2>
+
+<p>本文针对OpenSTA中的几个重要部分进行详细介绍，关于其他部分的内容请查看官方文档。本文中，将重点介绍：</p>
+
+<ol>
+<li><p>Collector方面：</p>
+
+<pre><code>1.  NT Performance的配置
+</code></pre></li>
+
+<li><p>Script方面：</p>
+
+<pre><code>1.  Script基本介绍2.  Script变量实现参数化3.  DOM对象实现关联
+</code></pre></li>
+
+<li><p>Test方面</p>
+
+<pre><code>1.  如何添加Task Group2.  Task Group各个参数选项说明3.  Monitoring、Results简单介绍
+</code></pre></li>
+
+<li><p>Name Server方面</p>
+
+<pre><code>1.  设置负载生成器
+</code></pre></li>
+</ol>
+
+<h3 id="1-nt-performance的配置">1. NT Performance的配置</h3>
+
+<p>NT Performance调用的是操作系统自带的Perfmon工具，如何设置添加Windows性能监视这里就不介绍了。</p>
+
+<h3 id="2-script基本介绍">2. Script基本介绍</h3>
+
+<p>首先声明一 下，OpenSTA的脚本使用的是其专有的SCL(Script Control Language)语言，语法比较复杂，使用起来相当的困难。所以，我对OpenSTA的定位是：脚本以录制为主，小部分修改，参数设置为辅。我们现在录 制一个最基本的脚本，看看是什么样，比如：访问一个静态页面（最简单的一个页面，输出几个字符），录制脚本如下：</p>
+
+<ul>
+<li><img src="http://images.cnblogs.com/cnblogs_com/coderzh/OpenSTA_Script.JPG" alt="" /></li>
+</ul>
+
+<p>我 们只是录制一个简单的访问一个静态页面的脚本，竟然自动生成了那么多代码！不要慌，让我们在仔细看看上图。其实，我们把代码分解一下，可以将脚本分为三个 部分：Environment, Definitions, Code。通过上图也知道了各部分的大致内容和作用，因此，如果我们撇开其他部分不看，而只看Code部分的PRIMARY GET URI 语句，是不是简单了很多呢？！</p>
+
+<p>在PRIMARY GET URI语句后面我们看到了&#8220;ON 1&#8221;的代码，而且在而且在脚本最后几行有&#8220;DISCONNECT FROM 1&#8221;语句。这里的&#8220;ON 1&#8221;是用来标示TCP连接，&#8220;DISCONNECT FROM 1&#8221;用来关闭TCP连接。这都是OpenSTA根据Http协议下的真实情况录制出来的。</p>
+
+<p>在对脚本的结构有了大致了解后，让我们来看看如何在Definitions中定义变量并在Code中使用我们的变量。</p>
+
+<h3 id="3-script变量实现参数化">3. Script变量实现参数化</h3>
+
+<h4 id="3-1-创建变量">3.1 创建变量</h4>
+
+<p>通过Script Modeler的菜单 Variables - Create 来创建变量，如下图：</p>
+
+<ul>
+<li><p><img src="http://images.cnblogs.com/cnblogs_com/coderzh/OpenSTA_Variables.JPG" alt="" /></p>
+
+<pre><code>1.  **Name** -- 变量名称
+</code></pre>
+
+<ol>
+<li><p><strong>Scope</strong> 变量范围，非常重要的一个属性！！有以下几种范围：</p>
+
+<pre><code>    *   Local
+
+            *   某变量范围设置为Local后，虚拟用户只能在自己当前运行的脚本内使用该变量，而无法使用其他用户或其他脚本内的该变量。可能刚开始不好理解，让我们用下面的图来表示虚拟用户(Virtual User)、脚本(Script)、变量访问范围(Scope)的关系：
+
+![](http://images.cnblogs.com/cnblogs_com/coderzh/os-mode4.png)
+</code></pre>
+
+<ul>
+<li><p>Script</p>
+
+<pre><code>        *   变量范围设置为Script，则表示运行时所有虚拟用户共用同一个Script里的变量。比如4个用户虚拟用户一起运行脚本A，假设脚本A中有一个设置为Script范围的变量B，则4个虚拟用户共用变量B，如果有人对变量B进行修改，则会影响到其他人。如下图：
+</code></pre>
+
+<p><img src="http://images.cnblogs.com/cnblogs_com/coderzh/os-modea.png" alt="" /></p></li>
+
+<li><p>Thread</p>
+
+<pre><code>        *   OpenSTA 中，每个虚拟用户是一个单独的线程，单变量范围设置为Thread后，则表示该变量在单个虚拟用户的线程内共享，很奇妙的是它定义在Script中却能够 跨越Script共享同一变量。因此，如果要设置Thread范围多个Script共享同一变量，必须在每个Script中定义它。通常我们会把这样的变 量定义在Global_Variables.INC文件中。这是一个全局变量文件，我们的每个脚本都会在中引用它，如：
+ &lt;div dir=&quot;ltr&quot;&gt;
+ &lt;div style=&quot;border: 1px solid #cccccc; padding: 4px 5px 4px 14px; background-color: #333333; color: #ffffff;&quot;&gt;&lt;span style=&quot;color: #ffffff;&quot;&gt;Include&lt;/span&gt; &lt;span style=&quot;color: #0086d2;&quot;&gt;&quot;GLOBAL_VARIABLES.INC&quot;&lt;/span&gt;&lt;/div&gt;
+
+ &lt;/div&gt;
+ Thread范围的变量范围使用如下图：
+</code></pre>
+
+<p><img src="http://www.cnblogs.com/images/cnblogs_com/coderzh/os-mod19.png" alt="" /></p></li>
+
+<li><p>Global</p>
+
+<pre><code>        *   设置为Global的变量可想而知范围最大，即变量在所有虚拟用户，所有脚本中共享。同样，变量必须在每个脚本中定义或是在Global_Variables.INC中定义。如下图：
+</code></pre>
+
+<p><img src="http://images.cnblogs.com/cnblogs_com/coderzh/os-mod38.png" alt="" /></p></li>
+</ul></li>
+
+<li><p><strong>Value</strong> &ndash; 设置值的来源，可以是自己输入的数值(Variable)、数组(Value List)、文件中的数据(File)、数据库中的数据(Database)等。</p></li>
+
+<li><p><strong>Order</strong> &ndash; 变量取值的顺序，分为：按顺序取(Sequential)和随机取(Random)。注意，当数据取完时，会从头开始取数据。</p></li>
+
+<li><p><strong>Type</strong> &ndash; 变量类型，分为字符串(Character)和数字(Integer)。</p></li>
+</ol></li>
+</ul>
+
+<h4 id="3-2-使用定义好的变量">3.2 使用定义好的变量</h4>
+
+<p>假如我们在刚才的步骤中创建了USERNAME和PASSWORD两个变量，Scope定义为SCRIPT，再创建MY_USERNAME和MY_PASSWORD两个Local变量。在Definitions中的定义如下：</p>
+
+<ul>
+<li><div dir="ltr">
+ <div style="border: 1px solid #cccccc; padding: 4px 5px 4px 14px; background-color: #333333; color: #ffffff;"><span style="color: #ffffff;">CHARACTER</span><span style="color: #ffffff;">*</span><span style="color: #0086f7; font-weight: bold;">512</span> <span style="color: #ffffff;">USERNAME</span> <span style="color: #ffffff;">(</span> <span style="color: #0086d2;">"phillip"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"allan"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"david"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"robert"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"donna"</span> <span style="color: #ffffff;">),</span> <span style="color: #ffffff;">SCRIPT</span>
+
+ <span style="color: #ffffff;">CHARACTER</span><span style="color: #ffffff;">*</span><span style="color: #0086f7; font-weight: bold;">512</span> <span style="color: #ffffff;">PASSWORD</span> <span style="color: #ffffff;">(</span> <span style="color: #0086d2;">"pillihp"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"nalla"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"divad"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"trebor"</span><span style="color: #ffffff;">,</span> <span style="color: #0086d2;">"annod"</span> <span style="color: #ffffff;">),</span> <span style="color: #ffffff;">SCRIPT</span>
+
+ <span style="color: #ffffff;">CHARACTER</span><span style="color: #ffffff;">*</span><span style="color: #0086f7; font-weight: bold;">512</span> <span style="color: #ffffff;">MY_USERNAME</span><span style="color: #ffffff;">,</span> <span style="color: #ffffff;">LOCAL</span>
+
+ <span style="color: #ffffff;">CHARACTER</span><span style="color: #ffffff;">*</span><span style="color: #0086f7; font-weight: bold;">512</span> <span style="color: #ffffff;">MY_PASSWORD</span><span style="color: #ffffff;">,</span> <span style="color: #ffffff;">LOCAL</span></div>
+ </div></li>
+</ul>
+
+<p>为了让所有用户在同一个脚本中使用同一个变量，解决并发的问题，我们必须在使用变量前使用互斥锁(MUTEXLocking)。如下：</p>
+
+<ul>
+<li><div dir="ltr">
+ <div style="border: 1px solid #cccccc; padding: 4px 5px 4px 14px; background-color: #333333; color: #ffffff;"><span style="color: #ffffff;">ACQUIRE</span> <span style="color: #ffffff;">MUTEX</span> <span style="color: #0086d2;">"LOGIN"</span>
+
+ <span style="color: #ffffff;">NEXT</span> <span style="color: #ffffff;">USERNAME</span>
+
+ <span style="color: #ffffff;">NEXT</span> <span style="color: #ffffff;">PASSWORD</span>
+
+ <span style="color: #ffffff;">SET</span> <span style="color: #ffffff;">MY_USERNAME</span> <span style="color: #ffffff;">=</span> <span style="color: #ffffff;">USERNAME</span>
+
+ <span style="color: #ffffff;">SET</span> <span style="color: #ffffff;">MY_PASSWORD</span> <span style="color: #ffffff;">=</span> <span style="color: #ffffff;">PASSWORD</span>
+
+ <span style="color: #ffffff;">RELEASE</span> <span style="color: #ffffff;">MUTEX</span> <span style="color: #0086d2;">"LOGIN"</span></div>
+ </div></li>
+</ul>
+
+<p>过 程：首先，加锁(ACQUIRE MUTEX)，并取名为LOGIN，然后使用NEXT语句获取USERNAME、PASSWORD变量的下一个数据，然后使用SET语句将取出的值赋值给 本地变量MY_USERNAME、MY_PASSWORD，然后释放锁(RELEASE MUTEX)。</p>
+
+<p>有了上面的四种不同范围的变量，相信要实现不同类型的参数化就变的相当的简单和方便了。</p>
+
+<h3 id="4-dom对象实现关联">4. DOM对象实现关联</h3>
+
+<p>DOM是Document Object Model文档对象模型的缩写。DOM是一种与浏览器，平台，语言无关的接口，使得你可以访问页面其他的标准组件。通过DOM，我们可以动态的获取返回的 HTML或XML，并方便的取出里面相应节点的内容进行检查或他用。OpenSTA在录制时会把这些信息记录在一个后缀为.ALL的文件中，光标定位到 PRIMARY POST URI 或是 PRIMARY GET URI处，点击工具栏黄色右箭头按钮，如图：</p>
+
+<ul>
+<li><img src="http://www.cnblogs.com/images/cnblogs_com/coderzh/OpenSTA_DOM_TAB.JPG" alt="" /></li>
+</ul>
+
+<p>现在我们要动态的获取页面的返回值：&#8220;You are Great!&#8221;，我们选中DOM tab中的HTML Tree，找到&#8220;You are Great!&#8221;，选中，右键点击&#8220;Address&#8221;，如图：</p>
+
+<ul>
+<li><img src="http://www.cnblogs.com/images/cnblogs_com/coderzh/OpenSTA_DOM.JPG" alt="" /></li>
+</ul>
+
+<p>在弹出的对话框中输入变量的名字，比如：ReturnText，确定后，代码中添加了如下内容：</p>
+
+<ul>
+<li><div dir="ltr">
+ <div style="border: 1px solid #cccccc; padding: 4px 5px 4px 14px; background-color: #333333; color: #ffffff;"><span style="color: #ffffff;">LOAD</span> <span style="color: #ffffff;">RESPONSE_INFO</span> <span style="color: #ffffff;">BODY</span> <span style="color: #ffffff;">ON</span> <span style="color: #0086f7; font-weight: bold;">1</span> <span style="color: #ffffff;">&amp;</span>
+
+ <span style="color: #ffffff;">INTO</span> <span style="color: #ffffff;">ReturnText</span> <span style="color: #ffffff;">&amp;</span>
+
+ <span style="color: #ffffff;">WITH</span> <span style="color: #0086d2;">"HTML(0)/BODY(0)/FONT(0):TEXT:(0)"</span></div>
+ </div></li>
+</ul>
+
+<p>然后就可以直接使用ReturnText变量了，我们可以用REPORT函数输出ReturnText来检查是否正确。</p>
+
+<ul>
+<li><div dir="ltr">
+ <div style="border: 1px solid #cccccc; padding: 4px 5px 4px 14px; background-color: #333333; color: #ffffff;"><span style="color: #ffffff;">REPORT</span> <span style="color: #ffffff;">ReturnText</span></div>
+ </div></li>
+</ul>
+
+<p>每次访问页面的时候Cookie的值都会不一样，OpenSTA自动为我们处理了这个需要动态获取的东西，处理的方式和刚才的ReturnText是一样的。</p>
+
+<h3 id="5-如何添加task-group">5. 如何添加Task Group</h3>
+
+<p>在Commander中添 加一个Task Group比较变态，首先点击Tests右键创建一个Test，然后在左边的目录树中把要运行的Script或是Collector拖动拖到Task Group的TaskX(1,2,3&hellip;)列，可以看到，一个Task Group可以有多个Task，这里要注意的是：</p>
+
+<ul>
+<li>Collector不允许和Script放在同一个Taks Group*   Task Group有多个Task时，执行顺序是按Task编号执行，比如有四个Task，执行顺序是：Task1 &#8594; Task2 &#8594; Task3 &#8594; Task4*   如果是多用户执行多个Task，某个用户先执行完Task1，不会等待其他用户执行完Task1，而是直接执行后面的Task2。即，用户不会集合，都是单独执行。</li>
+</ul>
+
+<h3 id="6-task-group各个参数选项说明">6. Task Group各个参数选项说明</h3>
+
+<p>首先看看Task Group有哪些列：</p>
+
+<ul>
+<li><p><img src="http://www.cnblogs.com/images/cnblogs_com/coderzh/OpenSTA_TaskGroup.JPG" alt="" /></p></li>
+
+<li><p><strong>Task Group</strong>列是Task Group的名称和说明信息。</p></li>
+
+<li><p><strong>Start</strong>列 中可以设置Task Group的开始时间(Start Task Group)，分为：立即开始(Immediately)、某个时间开始(Scheduled)、从现在开始计时多久后开始(Delay)。结束Task Group的条件(Stop Task Group)，分为：设置整个Task Group循环执行多少次后完成(On Completion)，手动控制完成(Manually)，固定多长时间后完成(After fixed time)。</p></li>
+
+<li><p><strong>Status</strong>列表示当前Task Group的状态，执行前状态为：有效(Enabled)，执行后会出现：运行中(Running)、失败(Fail)等状态。</p></li>
+
+<li><p><strong>Host</strong>列是负载生成器的主机名称或IP，这里可以设置其他远程机器运行负载，后面会介绍如何设置。</p></li>
+
+<li><p><strong>VUs</strong>列是虚拟用户设置相关的内容。界面上有些内容显示不全，因此使用Spy++取出完整的内容，看下图：</p>
+
+<pre><code>*   ![](http://www.cnblogs.com/images/cnblogs_com/coderzh/OpenSTA_VUs.JPG)
+</code></pre>
+
+<ul>
+<li><p>Total number of virtual users for this task group &ndash; 指定task group的总虚拟用户数*   Number of virtual users for Timer results &ndash; 指定需要进行Timer计时统计的虚拟用户数，因为执行过程中，统计事务执行时间等操作也会造成一定的消耗，因此，可以指定只有部分的虚拟用户收集进行自 己的时间统计数据，这个和&#8221;抽样统计&#8220;的思路差不多。*   Number of virtual users for HTTP results &ndash; 指定需要统计HTTP results的虚拟用户数，和上面意思差不多，抽样统计。*   Generate timers for each page &ndash; 为脚本中每个页面进行时间统计，这个我没有理解，试了各种情况似乎都没什么作用。如果你知道的话告诉我吧~、*   Introduce virtual users in batches &ndash; 设置是否将虚拟用户分成几批来执行，选中的话会在右边出现一个Batch Start Options*   Interval between batches &ndash; 设置每批用户执行的间隔时间*   Number of virtual users per batch &ndash; 设置每批用户的数量*   Batch ramp up time (seconds) &ndash; 设置每批执行的时间*   关于按批执行，执行的规律是比较奇怪的，比如<strong>虚拟用户总数设置为20，每批间隔时间设置为2秒，每批用户数为5，每批运行时间为10秒</strong>，则相对于每批Batch来看，运行情况如下：</p>
+
+<pre><code>    *   ![](http://www.cnblogs.com/images/cnblogs_com/coderzh/OpenSTA_Batch.JPG)&amp;nbsp;
+
+ 然而，在同一批内的五个虚拟用户是如何执行的呢？ 是在10秒内同时并发执行一次？多次？还是10秒内按顺序执行？经过试验，发现同一批内的五个虚拟用户是按顺序来执行的，因为每批用户数是5，每批运行时 间是10秒，因此，按顺序执行平均分下来每个用户需要执行10/5=2秒，在2秒内，虚拟用户只执行一次，然后2秒后，下一个用户开始执行。同一批内用户 执行情况如下图：&amp;nbsp;
+</code></pre>
+
+<ul>
+<li><img src="http://www.cnblogs.com/images/cnblogs_com/coderzh/OpenSTA_OneBatch.jpg" alt="" /></li>
+</ul></li>
+</ul></li>
+
+<li><p><strong>Task</strong>列是设置当天列的Task的一些基本信息，界面上有些字也不全，补全后如图：</p>
+
+<pre><code>*   ![](http://www.cnblogs.com/images/cnblogs_com/coderzh/OpenSTA_TASK.JPG)&amp;nbsp;
+</code></pre>
+
+<ul>
+<li>Task Termination &ndash; Task 结束方式，分为两种：循环执行指定次数后停止(On Completion)、循环执行指定时间后停止(After Fixed Time)。当选择On Completion时，在下面的文本框中输入需要循环的次数，当选择After Fixed Time时，在下面的文本框中输入需要循环执行的时间。*   Delay between each iteration &ndash; 设置相邻两次迭代之间的时间间隔，分为两种：固定时间(Fixed Delay)、可变时间(Variable Delay)。当选中Fixed Delay时，在下面的文本框中输入固定的间隔时间(Delay)，当选中Variable Delay时，则输入间隔时间范围的最小值(Minimum)和最大值(Maximum)。</li>
+</ul></li>
+</ul>
+
+<h3 id="7-monitoring-results简单介绍">7. Monitoring、Results简单介绍</h3>
+
+<ul>
+<li>Monitoring只在Test运行期间可用，比较变态，很废的东西。*   Results部分十分简陋，感觉收集的信息太少，图表不能合并，画出的图十分的难看。。。不错的是支持导出数据。。。。</li>
+</ul>
+
+<h3 id="8-设置负载生成器">8. 设置负载生成器</h3>
+
+<p>负载生成器机器即被控制 执行测试的机器(Loader)，必须运行OpenSTA Name Server，右键 - Configure - Repository Host(晕！界面上看只有Repository这个单词，原来这个也显示不全。。。) - 输入运行了OpenSTA Commander的主控机器(Controller)的IP。注意修改了Repository Host后要重启服务。这样，在主控制机器(Controller)的Commander中的设置Host Name - 输入负载生成器机器的IP。搞定。</p>
+
+<p>这样做似乎有一些确定，因为假如我要控制别的机器运行测试案例，需要在别的机器上指定我的机器的IP，当我要用另一台机器做控制端(Controller)时，又需要修改那些机器的设置，不像LoadRunner一样方便，不需要修改什么。</p>
+
+<h3 id="9-总结">9. 总结</h3>
+
+<p>用过了LoadRunner，看过了WebLOAD等其他工具，总体感觉OpenSTA还是不错的，给人的感觉是小巧，简洁。在通过变量实现参数化的过程中感觉非常的灵活，同时，在构建一个场景相对简单的性能测试案例时，OpenSTA是一个不错的选择。然而OpenSTA又有着许多不足：</p>
+
+<ul>
+<li>脚本语言过于复杂，自定义脚本相当困难*   似乎不支持集合点的设置*   场景设计方面太过于简单，对于构建一些复杂的场景比较麻烦*   不能收集Linux性能数据*   使用Repository管理测试脚本、配置等过于简单，保存脚本居然不能自己选择路径*   Results结果报告的图表太简陋，功能太少！*   负载生成器的被控端设计不合理</li>
+</ul>
+
+<p><strong>[温馨提示]：该文章由原博客园导入而来，如排版效果不佳，请移步：<a href="http://www.cnblogs.com/coderzh/archive/2008/07/21/1248088.html">http://www.cnblogs.com/coderzh/archive/2008/07/21/1248088.html</a></strong></p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2008/07/23/1249919/" data-tooltip="Python天天美味(29) - 调用VC&#43;&#43;的动态链接库(DLL)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2008/07/16/1243990/" data-tooltip="Linux下VNCSERVER使用">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2008/07/23/1249919/" data-tooltip="Python天天美味(29) - 调用VC&#43;&#43;的动态链接库(DLL)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2008/07/16/1243990/" data-tooltip="Linux下VNCSERVER使用">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+  
+
+
+
+    
+  </body>
+</html>
+

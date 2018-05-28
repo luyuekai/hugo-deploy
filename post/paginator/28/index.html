@@ -1,0 +1,851 @@
+
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Posts</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content=", 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.coderzh.com/post/feed.xml">
+    
+
+    
+    <meta name="description" content="如果你没有感觉到时间不够用时，你多半正在虚度光阴。">
+    <meta property="og:description" content="如果你没有感觉到时间不够用时，你多半正在虚度光阴。">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Posts">
+    <meta property="og:url" content="/post/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="如果你没有感觉到时间不够用时，你多半正在虚度光阴。">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <section class="postShorten-group main-content-wrap">
+          
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/17/1201509/">
+          Python天天美味(23) - enumerate遍历数组
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-17T00:00:00Z">
+        
+   17, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      其他语言中，比如C＃，我们通常遍历数组是的方法是： for&nbsp;(int&nbsp;i= 0; i &lt; list.Length; i++) ![](http://www.cnblogs.com/Images/OutliningIndicators/ExpandedBlockStart.gif)![](http://www.cnblogs.com/Images/OutliningIndicators/ContractedBlock.gif)![](http://www.cnblogs.com/Images/dot.gif){ ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)&nbsp;&nbsp;&nbsp;&nbsp;//todo with list[i]![](http://www.cnblogs.com/Images/OutliningIndicators/ExpandedBlockEnd.gif)} 在Python中，我们习惯这样遍历： for&nbsp;item&nbsp;in&nbsp;sequence: &nbsp;&nbsp;&nbsp; process(item) 这样遍历取不到item的序号
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/17/1201509/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/17/1201319/">
+          试用IronPython
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-17T00:00:00Z">
+        
+   17, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      &nbsp;今天装上IronPython Studio体验了一下，能在VS里写Python还是感觉不错的。想体验的可以通过下面的地址安装。 1.
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/17/1201319/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/16/1201074/">
+          Python天天美味(19) - 时间处理datetime
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-16T00:00:00Z">
+        
+   16, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      Python Cook书中有很多章节都是针对某个库的使用进行介绍或是通过组合多个函数实现一些复杂的功能。我这里直接跳过了上一章节中对于文件处理的一些章节
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/16/1201074/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/16/1201079/">
+          Python天天美味(20) - 命令行参数sys.argv
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-16T00:00:00Z">
+        
+   16, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      命令行参数是通过sys.argv[]来获取的，sys.argv[0]是代码文件本身的路径，因此参数是从1开始的。比如设置参数为： spe Pytho
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/16/1201079/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/16/1200880/">
+          决定学习WebLOAD
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-16T00:00:00Z">
+        
+   16, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      &nbsp;&nbsp;&nbsp; 做性能测试两个多月了，对性能测试也有了一定的了解。对性能测试工具的选择当然是首选LoadRunner了，今后还要继续在博客中补充LoadR
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/16/1200880/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/13/1194426/">
+          Ken Thompson 的经典 C 程序
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-13T00:00:00Z">
+        
+   13, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      ![](http://www.cnblogs.com/Images/OutliningIndicators/ExpandedBlockStart.gif)![](http://www.cnblogs.com/Images/OutliningIndicators/ContractedBlock.gif)&nbsp;char&nbsp;s[]=![](http://www.cnblogs.com/Images/dot.gif){ ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\t', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'0', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'}', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)';', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'m', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'a', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'i', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'(', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)')', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'{', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\t', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'i', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'t', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'&nbsp;', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'i', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)';', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\t', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'p', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'r', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'i', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'t', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'f', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'(', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'"', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'c', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'h', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'a', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'r', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'&nbsp;', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'s', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'[', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)']', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'=', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'{', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\\', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'"', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)')', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)';', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\n', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'\t', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'f', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'o', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'r', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'(', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'i', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'=', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'0', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)';', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'&nbsp;', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'s', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'[', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'i', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)']', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)';', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'&nbsp;', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'i', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'+', ![](http://www.cnblogs.com/Images/OutliningIndicators/InBlock.gif)'+',
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/13/1194426/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/13/1194445/">
+          Ken Thompson爷爷的经典复制自身代码程序 - Python版本(只用两行！)
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-13T00:00:00Z">
+        
+   13, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      Ken Thompson可是大牛人了！不认识的人赶快Google/百度一下。Ken爷爷是Unix创始人，C语言鼻祖！Ken 当时大学时候没游戏玩，就
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/13/1194445/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/10/1191410/">
+          Python天天美味(17) - open读写文件
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-10T00:00:00Z">
+        
+   10, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      Python中文件操作可以通过open函数，这的确很像C语言中的fopen。通过open函数获取一个file object，然后调用read(
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/10/1191410/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/10/1191641/">
+          Python天天美味(18) - linecache.getline()读取文件中特定一行
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-10T00:00:00Z">
+        
+   10, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      Python中使用标准库中的linecache中的getline方法可以从某个文件中读取出特定的一行。比如： import&nbsp;linecache print&nbsp;linecache.getline('2.1_open.py',&nbsp;4) 将返回我上一节事例代码文件2
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/10/1191641/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://blog.coderzh.com/2008/05/10/1191649/">
+          linecache.py
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2008-05-10T00:00:00Z">
+        
+   10, 2008
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      """Cache&nbsp;lines&nbsp;from&nbsp;files. This&nbsp;is&nbsp;intended&nbsp;to&nbsp;read&nbsp;lines&nbsp;from&nbsp;modules&nbsp;imported&nbsp;--&nbsp;hence&nbsp;if&nbsp;a&nbsp;filename is&nbsp;not&nbsp;found,&nbsp;it&nbsp;will&nbsp;look&nbsp;down&nbsp;the&nbsp;module&nbsp;search&nbsp;path&nbsp;for&nbsp;a&nbsp;file&nbsp;by that&nbsp;name. """import&nbsp;sys import&nbsp;os __all__&nbsp;=&nbsp;["getline",&nbsp;"clearcache",&nbsp;"checkcache"] def&nbsp;getline(filename,&nbsp;lineno,&nbsp;module_globals=None): &nbsp;&nbsp;&nbsp;&nbsp;lines&nbsp;=&nbsp;getlines(filename,&nbsp;module_globals) &nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;1&nbsp;&lt;=&nbsp;lineno&nbsp;&lt;=&nbsp;len(lines): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;lines[lineno-1] &nbsp;&nbsp;&nbsp;&nbsp;else: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;''#&nbsp;The&nbsp;cachecache&nbsp;=&nbsp;{}&nbsp;#&nbsp;The&nbsp;cachedef&nbsp;clearcache(): &nbsp;&nbsp;&nbsp;&nbsp;"""Clear&nbsp;the&nbsp;cache&nbsp;entirely."""&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;cache &nbsp;&nbsp;&nbsp;&nbsp;cache&nbsp;=&nbsp;{} def&nbsp;getlines(filename,&nbsp;module_globals=None): &nbsp;&nbsp;&nbsp;&nbsp;"""Get&nbsp;the&nbsp;lines&nbsp;for&nbsp;a&nbsp;file&nbsp;from&nbsp;the&nbsp;cache. &nbsp;&nbsp;&nbsp;&nbsp;Update&nbsp;the&nbsp;cache&nbsp;if&nbsp;it&nbsp;doesn't&nbsp;contain&nbsp;an&nbsp;entry&nbsp;for&nbsp;this&nbsp;file&nbsp;already."""&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;filename&nbsp;in&nbsp;cache: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;cache[filename][2] &nbsp;&nbsp;&nbsp;&nbsp;else: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;updatecache(filename,&nbsp;module_globals) def&nbsp;checkcache(filename=None): &nbsp;&nbsp;&nbsp;&nbsp;"""Discard&nbsp;cache&nbsp;entries&nbsp;that&nbsp;are&nbsp;out&nbsp;of&nbsp;date. &nbsp;&nbsp;&nbsp;&nbsp;(This&nbsp;is&nbsp;not&nbsp;checked&nbsp;upon&nbsp;each&nbsp;call!)"""&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;filename&nbsp;is&nbsp;None: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filenames&nbsp;=&nbsp;cache.keys() &nbsp;&nbsp;&nbsp;&nbsp;else: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;filename&nbsp;in&nbsp;cache: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filenames&nbsp;=&nbsp;[filename] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;filename&nbsp;in&nbsp;filenames: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size,&nbsp;mtime,&nbsp;lines,&nbsp;fullname&nbsp;=&nbsp;cache[filename] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;mtime&nbsp;is&nbsp;None: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue&nbsp;&nbsp;&nbsp;#&nbsp;no-op&nbsp;for&nbsp;files&nbsp;loaded&nbsp;via&nbsp;a&nbsp;__loader__&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stat&nbsp;=&nbsp;os.stat(fullname) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except&nbsp;os.error: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del&nbsp;cache[filename] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;size&nbsp;!=&nbsp;stat.st_size&nbsp;or&nbsp;mtime&nbsp;!=&nbsp;stat.st_mtime: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del&nbsp;cache[filename] def&nbsp;updatecache(filename,&nbsp;module_globals=None): &nbsp;&nbsp;&nbsp;&nbsp;"""Update&nbsp;a&nbsp;cache&nbsp;entry&nbsp;and&nbsp;return&nbsp;its&nbsp;list&nbsp;of&nbsp;lines. &nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;something's&nbsp;wrong,&nbsp;print&nbsp;a&nbsp;message,&nbsp;discard&nbsp;the&nbsp;cache&nbsp;entry, &nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;return&nbsp;an&nbsp;empty&nbsp;list."""&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;filename&nbsp;in&nbsp;cache: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del&nbsp;cache[filename] &nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;not&nbsp;filename&nbsp;or&nbsp;filename[0]&nbsp;+&nbsp;filename[-1]&nbsp;==&nbsp;'&lt;&gt;': &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;[] &nbsp;&nbsp;&nbsp;&nbsp;fullname&nbsp;=&nbsp;filename &nbsp;&nbsp;&nbsp;&nbsp;try: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stat&nbsp;=&nbsp;os.stat(fullname) &nbsp;&nbsp;&nbsp;&nbsp;except&nbsp;os.error,&nbsp;msg: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;basename&nbsp;=&nbsp;os.path.split(filename)[1] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Try&nbsp;for&nbsp;a&nbsp;__loader__,&nbsp;if&nbsp;available&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;module_globals&nbsp;and&nbsp;'__loader__'&nbsp;in&nbsp;module_globals: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;module_globals.get('__name__') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loader&nbsp;=&nbsp;module_globals['__loader__'] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_source&nbsp;=&nbsp;getattr(loader,&nbsp;'get_source',&nbsp;None) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;name&nbsp;and&nbsp;get_source: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;basename.startswith(name.split('.')[-1]+'.'): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;=&nbsp;get_source(name) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except&nbsp;(ImportError,&nbsp;IOError): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;data&nbsp;is&nbsp;None: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;No&nbsp;luck,&nbsp;the&nbsp;PEP302&nbsp;loader&nbsp;cannot&nbsp;find&nbsp;the&nbsp;source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;for&nbsp;this&nbsp;module.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;[] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache[filename]&nbsp;=&nbsp;( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;len(data),&nbsp;None, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[line+'\n'&nbsp;for&nbsp;line&nbsp;in&nbsp;data.splitlines()],&nbsp;fullname &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;cache[filename][2] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Try&nbsp;looking&nbsp;through&nbsp;the&nbsp;module&nbsp;search&nbsp;path,&nbsp;taking&nbsp;care&nbsp;to&nbsp;handle&nbsp;packages.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;basename&nbsp;==&nbsp;'__init__.py': &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;filename&nbsp;referes&nbsp;to&nbsp;a&nbsp;package&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;basename&nbsp;=&nbsp;filename &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;dirname&nbsp;in&nbsp;sys.path:
+      <p>
+        <a href="https://blog.coderzh.com/2008/05/10/1191649/" class="postShorten-excerpt_link link"></a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+          
+  <div class="pagination-bar">
+    <ul class="pagination">
+      
+        
+          <li class="pagination-prev">
+            <a class="btn btn--default btn--small" href="https://blog.coderzh.com/post/paginator/27/">
+              <i class="fa fa-angle-left text-base icon-mr"></i>
+              <span></span>
+            </a>
+          </li>
+        
+        
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="https://blog.coderzh.com/post/paginator/29/">
+              <span></span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
+      
+      <li class="pagination-number"> </li>
+    </ul>
+  </div>
+
+
+        </section>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+
+
+    
+  </body>
+</html>
+

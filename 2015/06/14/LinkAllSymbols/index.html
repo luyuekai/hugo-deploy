@@ -1,0 +1,673 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>强制链接静态库所有符号(包括未被使用的)</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content="unreferenced symbols, 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+
+    
+    <meta name="description" content="C&#43;&#43;程序在链接一个静态库时，如果该静态库里的某些方法没有任何地方调用到，最终这些没有被调用到的方法或变量将会被丢弃掉，不会被链接到目标程序中。这样做大大减小生成二进制文件的体积。但是，某些时候，即使静态库里的某些方法没有任何地方使用到，我们也希望将这些没有使用到的代码编译进最终的二进制文件中。
+
+">
+    <meta property="og:description" content="C&#43;&#43;程序在链接一个静态库时，如果该静态库里的某些方法没有任何地方调用到，最终这些没有被调用到的方法或变量将会被丢弃掉，不会被链接到目标程序中。这样做大大减小生成二进制文件的体积。但是，某些时候，即使静态库里的某些方法没有任何地方使用到，我们也希望将这些没有使用到的代码编译进最终的二进制文件中。
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="强制链接静态库所有符号(包括未被使用的)">
+    <meta property="og:url" content="/2015/06/14/LinkAllSymbols/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="C&#43;&#43;程序在链接一个静态库时，如果该静态库里的某些方法没有任何地方调用到，最终这些没有被调用到的方法或变量将会被丢弃掉，不会被链接到目标程序中。这样做大大减小生成二进制文件的体积。但是，某些时候，即使静态库里的某些方法没有任何地方使用到，我们也希望将这些没有使用到的代码编译进最终的二进制文件中。
+
+">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      强制链接静态库所有符号(包括未被使用的)
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-06-14T00:00:00Z">
+        
+   14, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%80%9d%e8%80%83%e6%84%9f%e6%82%9f">思考感悟</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>C++程序在链接一个静态库时，如果该静态库里的某些方法没有任何地方调用到，最终这些没有被调用到的方法或变量将会被丢弃掉，不会被链接到目标程序中。这样做大大减小生成二进制文件的体积。但是，某些时候，即使静态库里的某些方法没有任何地方使用到，我们也希望将这些没有使用到的代码编译进最终的二进制文件中。</p>
+
+<p></p>
+
+<p>为什么会有这样的需求？的确，存在这种需求的是少数情况，但是一旦你遇到下面的需求，就变得必须了。比如：</p>
+
+<ol>
+<li>动态插件机制。代码中没有直接调用某方法，但是希望能在运行时动态加载执行某方法。</li>
+<li>执行代码覆盖率统计。需要统计静态库所有代码的覆盖情况，而不只是被使用到的代码覆盖情况。</li>
+</ol>
+
+<p>如果是gcc编译，比较好办，只需要加上<strong>&ndash;whole-archive</strong>链接选项。但是在Windows平台，微软的编译器没有这样的选项，一个最接近的选项是<strong>/OPT:NOREF</strong>。</p>
+
+<blockquote>
+<p>文档见：<a href="https://msdn.microsoft.com/en-us/library/bxwfs976.aspx">https://msdn.microsoft.com/en-us/library/bxwfs976.aspx</a>
+说明：/OPT:REF eliminates functions and data that are never referenced; /OPT:NOREF keeps functions and data that are never referenced.</p>
+</blockquote>
+
+<p>/OPT:NOREF在Debug下是默认打开的，而且只能强制保留本工程未被使用到的函数和变量。对于引用的静态库的未被使用的函数和变量是不生效的。甚至有人认为这是微软的BUG在这个帖子里热烈讨论过：<a href="https://social.msdn.microsoft.com/Forums/vstudio/en-US/2aa2e1b7-6677-4986-99cc-62f463c94ef3/linkexe-bug-optnoref-option-doesnt-work?forum=vclanguage">LINK.EXE BUG: /OPT:NOREF option doesn&rsquo;t work!</a></p>
+
+<p>遇到同样问题的可不止我一个人，比如StackOverFlow里就有人问：<a href="http://stackoverflow.com/questions/3867254/what-is-the-visual-studio-equivalent-to-gnu-ld-option-whole-archive">What is the Visual studio equivalent to GNU ld option &ndash;whole-archive</a></p>
+
+<p>有人建议他用/INCLUDE 选项强制链接未使用的符号，也有人说使用/OPT:NOREF（显然不行）。</p>
+
+<p>使用/INCLUDE 指定某个符号强制链接是可以的。但是，假如静态库中有成百上千个符号需要强制/INCLUDE，怎么办？</p>
+
+<p>所以，最好的方法，也是上面讨论/OPT:NOREF BUG的帖子里有人提到的方法，就是在代码中使用：</p>
+
+<pre><code>#pragma comment(linker, &quot;/include:?emptyreference@Noisy@@QAEXXZ&quot;)
+</code></pre>
+
+<p>通过上面的方法，可以让链接器强制include一个符号，include:后面的是符号名称。如果要强制include静态库中所有符号，需要把静态库中的所有符号找出来，然后通过上面的方法强制include。</p>
+
+<p>人手工找出所有Symbols，然后添加上面的代码是不太靠谱的。一方面Symbols的格式可读性太差不好维护，另一方面假如静态库符号信息修改了，这个维护代价就更大了。所以，必须让这个过程自动完成。</p>
+
+<p>查看静态库所有符号列表，Linux里可以使用<a href="https://sourceware.org/binutils/docs/binutils/nm.html">nm</a> ，Windows平台可以使用<a href="https://support.microsoft.com/en-us/kb/177429">dumpbin</a>。</p>
+
+<p>执行dumbin.exe需要注意，必须在Visual Studio的开发命令行环境才能执行。不过有个小技巧可以让你不必在Developer Command Prompt执行，就是假如是VS2013环境，建一个批处理，在开头加上：</p>
+
+<pre><code>@echo off
+if defined VS120COMNTOOLS (
+    call &quot;%VS120COMNTOOLS%\vsvars32.bat&quot;)
+</code></pre>
+
+<p>我们使用dumpbin /LINKERMEMBER xxx.lib，可以列出所有的符号名字，比如查看静态库MyLib.lib所有符号：</p>
+
+<pre><code>d:\Code\Cpp\LinkAllSymbols\Debug&gt;dumpbin.exe /linkermember:1 MyLib.lib
+Microsoft (R) COFF/PE Dumper Version 12.00.30501.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+ 
+ 
+Dump of file MyLib.lib
+ 
+File Type: LIBRARY
+ 
+Archive member name at 8: /
+557D4C17 time/date Sun Jun 14 17:40:39 2015
+         uid
+         gid
+       0 mode
+      ED size
+correct header end
+ 
+    9 public symbols
+ 
+      328 ??4Turtle@@QAEAAV0@ABV0@@Z
+      328 ??_C@_0M@KEAKLOKJ@Turtle?5run?4?$AA@
+      328 ?Download@@YAHXZ
+      328 ?Run@Turtle@@QAEXXZ
+     19CE ?FishRun@@YAXXZ
+     19CE ?Run@Fish@@QAEXXZ
+     2D16 ??_C@_08EMEDHABH@Dog?5run?4?$AA@
+     2D16 ?Foo@@YAHXZ
+     2D16 ?Run@Dog@@QAEXXZ
+ 
+  Summary
+ 
+        28B4 .debug$S
+          F0 .debug$T
+         102 .drectve
+          15 .rdata
+           C .rtc$IMZ
+           C .rtc$TMZ
+         15A .text$mn
+</code></pre>
+
+<p>因此，只需要执行dumpbin，并且在输出结果中抽取出所有的符号名称，然后自动生成#pragma comment(linker, &ldquo;/include:xxx&rdquo;)代码即可。</p>
+
+<p>于是，我写了一个Python脚本，执行dumpbin，然后通过正则表达式拿到所有符号名称，自动生成强制include了所有符号的头文件。关键代码如下：</p>
+
+<pre><code class="language-python">import re
+ 
+regex = re.compile(r&quot;\s+.*\s([\?_]+.*)&quot;)
+ 
+exclude = []
+ 
+def gen_header_file_for_lib(lib_path, header_path):
+    cmd = ['dumpbin.exe','/linkermember:1', lib_path]
+    lines = execute_command(cmd)
+    symbols = find_matches(lines, regex, exclude)
+ 
+    with open(header_path, 'w') as f:
+        header_guard = &quot;LINK_ALL_SYMBOLS_H_&quot;
+        f.write(&quot;#ifndef &quot; + header_guard + '\n')
+        f.write(&quot;#define &quot; + header_guard + '\n')
+        f.write(&quot;// Generated by GenLinkerSymbols.py. Do not modify! \n\n&quot;)
+ 
+        for symbol in symbols:
+            pragma_line = '#pragma comment(linker, &quot;/include:' + symbol + '&quot;)'
+            f.write(pragma_line + '\n')
+        f.write(&quot;\n#endif // &quot; + header_guard + '\n')
+ 
+    print(&quot;Link symbols count: %s&quot; % len(symbols))
+ 
+def find_matches(lines, regex, exclude_list):
+    def match(line):
+        m = regex.match(line)
+        if m:
+            return m.group(1).split()[0]
+        return None
+ 
+    def exclude_filter(line):
+        if not line:
+            return False
+ 
+        for exclude in exclude_list:
+            if line.find(exclude) &gt;= 0:
+                return False
+        return True
+ 
+    matches = filter(exclude_filter, map(match, lines))
+    return list(set(matches))
+</code></pre>
+
+<p>结合Visual Studio工程配置里的Post-Build Event，就可以在编译静态库之后自动更新头文件了。比如：</p>
+
+<pre><code>python ..\GenSymbolsHeader.py $(OutDir)$(TargetName)$(TargetExt) ..\Include\LinkAllSymbols.h
+</code></pre>
+
+<p>在使用该静态库的工程代码中，只需要#include &ldquo;LinkAllSymbols.h&rdquo; 就可以了。</p>
+
+<h3 id="对比">对比</h3>
+
+<p>使用OpenCppCoverage进行代码覆盖率测试，对比如下：</p>
+
+<p>正常情况下，不强制在linker时include静态库所有符号时，代码覆盖率结果为：</p>
+
+<p><img src="http://7xlx3k.com1.z0.glb.clouddn.com/noinclude.png-w" alt="noinclude" /></p>
+
+<p>通过上面的方法，自动生成LinkAllSymbols.h并#include &ldquo;LinkAllSymbols.h&rdquo;，覆盖率结果为：</p>
+
+<p><img src="http://7xlx3k.com1.z0.glb.clouddn.com/included.png-w" alt="included" /></p>
+
+<h3 id="github">github</h3>
+
+<p>所有代码见：<a href="https://github.com/coderzh/LinkAllSymbols">https://github.com/coderzh/LinkAllSymbols</a></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/06/28/163GameOpenDay/" data-tooltip="小记：网易游戏学院第二届公开日">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/06/13/StartGithub/" data-tooltip="开启Github之旅">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/06/28/163GameOpenDay/" data-tooltip="小记：网易游戏学院第二届公开日">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2015/06/13/StartGithub/" data-tooltip="开启Github之旅">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+  
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,1231 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Swift 语言学习及速查手册</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content="swift, 快速入门, 教程, 代码示例, 速查, 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+
+    
+    <meta name="description" content="Swift 速查手册，快速入门">
+    <meta property="og:description" content="Swift 速查手册，快速入门">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Swift 语言学习及速查手册">
+    <meta property="og:url" content="2016/04/24/swift-tips/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="Swift 速查手册，快速入门">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Swift 语言学习及速查手册
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2016-04-24T23:21:16&#43;08:00">
+        
+   24, 2016
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>学习一门新的编程语言要多久？答案是随着你的经验的增加，学习花费的时间越来越短。当然，这也和新语言的不断演变进化有关系。</p>
+
+<p>我利用周末两天时间，把《Swift Programming Language》中文版整整的细看了一遍，然后为了总结提取 Swift 的主要语言特性，又把这本书快速过了第二遍。</p>
+
+<p>根据我的番茄钟粗略统计，我看书学习第一遍大约花了 5 小时（包括边学，边在 XCode 试验的时间），第二遍主要是快速过一遍主要特性，将主要示例代码提取出来，大约花了 3.5 小时。</p>
+
+<p>连我自己都觉得有点难以置信，总共只需要 8 小时，就可以基本入门一门新语言了。</p>
+
+<p>很多时候，我们想学习某个东西，但是却一直停留在想一想的状态，迟迟都未动手。究其原因，大概是如下几个原因吧：</p>
+
+<ol>
+<li><p>恐惧未知。对未知的东西没有把握，怕太难，怕需要太长时间学，所以能拖就拖。</p></li>
+
+<li><p>注意力不能集中。连续玩几个小时游戏一点不累，看半小时书就感觉身心俱疲。</p></li>
+</ol>
+
+<p>番茄工作法在这个时候就起作用了，告诉自己，不想太多，开始一个番茄钟试试，在这 25 分钟内，只关注这 25 分钟内要看的内容。然后，很自然的，障碍被逐个击破，番茄钟一个接着一个。</p>
+
+<p>以下是我学习 Swift 的代码总结，可用于之后速查。</p>
+
+<p>代码：<a href="https://github.com/coderzh/CodeTips/blob/master/swift.swift">https://github.com/coderzh/CodeTips/blob/master/swift.swift</a></p>
+
+<pre><code>/*
+ swift.swift:
+ Swift 速学速查速用代码手册
+ Source: github.com/coderzh/CodeTips/blob/master/swift.swift
+ Author: coderzh(github.com/coderzh)
+ Blog: http://blog.coderzh.com
+ 参考：《Swift Programming Language》
+ */
+
+import Cocoa
+
+// 0. 注释
+/*
+块注释
+行尾分号可不用
+*/
+
+// 1. Hello World
+print(&quot;Hello Swift&quot;)
+
+// 2. 常量变量类型
+let constValue = 3.14
+var variable = 18
+
+variable += 1
+
+// 指定类型
+let age: Int = 18
+// 多重赋值
+var (a, b) = (1, 2)
+// 匿名占位符
+(_, b) = (3, 4)
+
+// 类型会自动推导
+let name = &quot;It's a string&quot;
+let gravity = 0.98 // 默认 double
+
+// 永远不做隐式转换，必须自己强转
+let sum = Double(age) + gravity
+
+// 运算：+, -, *, /, % 求余
+// 比较：&lt;, &gt;, ==, &gt;=, &lt;=, !=
+// === 恒等，是否为同一个对象
+// !== 不恒等
+// 位运算：~x 取反，&amp; 与，| 或，^ 异或，&lt;&lt; 左移动，&gt;&gt; 右移
+// 溢出运算符 &amp;+ &amp;- &amp;* &amp;/ &amp;% ，这样溢出部分就会丢掉，不会出错，比如：
+var willOverflow = UInt8.max
+willOverflow = willOverflow &amp;+ 1 // = 0
+
+// 类型
+let b1 = true
+let i32: Int32 = 6
+let f64: Float64 = 3.1415
+
+// 字符串
+let str = &quot;swift&quot;
+// 字符串连接，使用\()
+var hello = &quot;hello \(str)&quot;
+let count = str.characters.count
+let c = hello[hello.startIndex]
+for i in hello.characters.indices {
+    print(&quot;\(hello[i])&quot;)
+}
+
+hello.insert(&quot;!&quot;, atIndex: hello.endIndex)
+hello.insertContentsOf(&quot; there&quot;.characters, at: hello.endIndex.predecessor())
+hello.removeAtIndex(hello.endIndex.predecessor())
+hello.hasPrefix(&quot;hello&quot;)
+hello.hasSuffix(&quot;swift&quot;)
+
+let unicode = &quot;你好 swift&quot;
+unicode.characters.count // 8
+
+for codeUnit in unicode.utf8 {
+    print(&quot;\(codeUnit)&quot;, terminator: &quot;&quot;)
+}
+if hello == unicode{
+
+}
+
+// 数组
+var shoppingList = [&quot;test&quot;, &quot;book&quot;, &quot;bike&quot;]
+shoppingList[2] = &quot;joke&quot;
+shoppingList.append(&quot;bus&quot;)
+shoppingList.insert(&quot;foo&quot;, atIndex: 0)
+shoppingList.removeAtIndex(0)
+
+// 类似 slice
+shoppingList[0..&lt;2] // [&quot;test&quot;, &quot;book&quot;]
+shoppingList[0...2] // [&quot;test&quot;, &quot;book&quot;, &quot;joke&quot;]
+
+for item in shoppingList {
+    print(item)
+}
+
+for (index, value) in shoppingList.enumerate() {
+    print(&quot;\(index): \(value)&quot;)
+}
+
+let emptyArray = [String]()
+var someInts = [Int]()
+var someInts2 = [Int](count: 3, repeatedValue: 8) // [8, 8, 8]
+var someInts3 = [Int](count: 3, repeatedValue: 2)
+
+// 任意类型数组
+var anyArray = [Any]()
+anyArray.append(1)
+anyArray.append(&quot;book&quot;)
+
+someInts = someInts2 + someInts3 // [8, 8, 8, 2, 2, 2]
+
+// 元组
+let httpResponse = (404, &quot;Not Found&quot;)
+print(httpResponse.0)
+
+// 集合 Sets
+var setBooks: Set&lt;String&gt; = [&quot;book1&quot;, &quot;book2&quot;]
+// 自动推导
+var setBooks2: Set = [&quot;book1&quot;, &quot;book2&quot;, &quot;book3&quot;]
+
+setBooks.intersect(setBooks2)  // 交集
+setBooks.exclusiveOr(setBooks2)  // 非交集
+setBooks.union(setBooks2)  // 并集
+setBooks.subtract(setBooks2)  // 减集
+
+setBooks.isSubsetOf(setBooks2)
+setBooks2.isSupersetOf(setBooks)
+setBooks.isStrictSubsetOf(setBooks2)  // 被包含且不相等
+
+// 字典
+var map = [
+    &quot;Malcolm&quot;: &quot;hehe&quot;,
+    &quot;Keylee&quot;: 123,
+]
+map[&quot;Keylee&quot;] = 166
+
+var namesOfInt = [Int: String]()
+namesOfInt[10] = &quot;ten&quot;
+
+if let oldValue = namesOfInt.updateValue(&quot;Ten&quot;, forKey: 10) {
+    print(&quot;\(oldValue)&quot;)
+}
+
+if let name = namesOfInt[8] {
+    print(&quot;\(name)&quot;)
+} else {
+    print(&quot;not exist 8&quot;)
+}
+
+for (intKey, strValue) in namesOfInt {
+    print(&quot;\(intKey):\(strValue)&quot;)
+}
+
+// namsOfInt.values
+for intKeys in namesOfInt.keys {
+
+}
+
+let intKeys = [Int](namesOfInt.keys)
+
+// 可空变量，用 ?
+var optionalString: String? = nil
+
+if let name = optionalString {
+    print(&quot;hello \(name)&quot;)
+}
+
+// 3. 流程控制
+// 循环
+// [0, 4)
+for i in 0..&lt;4 {
+    print(&quot;print \(i)&quot;)  // 4 times
+}
+
+// [0, 4]
+for i in 0...4 {
+    print(&quot;print \(i)&quot;)  // 5 times
+}
+
+var i = 0
+while i &lt; 2 {
+    print(&quot;\(i)&quot;)
+    i += 1
+}
+
+repeat {
+    print(&quot;\(i)&quot;)
+    i += 1
+} while i &lt; 5
+
+// 判断
+if i &lt; 5 {
+
+} else if i &lt; 10 {
+
+} else {
+
+}
+
+// 强大的 switch
+// 不需要 break
+switch i {
+case 1, 2, 3:
+    print(&quot;123&quot;)
+case 5:
+    print(&quot;5&quot;)
+case 6..&lt;10:
+    print(&quot;6-9&quot;)
+default:
+    print(&quot;default&quot;)
+}
+
+let somePoint = (1, 1)
+
+switch somePoint {
+case (0, 0):
+    print(&quot;0, 0&quot;)
+case (_, 1):
+    print(&quot;y is 1&quot;)
+case (-2...2, -2...2): // 区间
+    print(&quot;from (-2,-2) to (2, 2)&quot;)
+case (let x, 0):  // 值绑定
+    print(&quot;\(x)&quot;)
+case let (x, y) where x == y:  // where
+    print(&quot;x == y&quot;)
+case (10, 11):
+    fallthrough  // 贯穿，继续向下
+default:
+    print(&quot;default&quot;)
+}
+
+// 控制转移
+// continue break fallthrough retrun throw
+
+// 带标签
+i = 0
+gameLoop: while i &gt; -1 {
+    i = i + 1
+    if i &gt; 3 {
+        break gameLoop
+    }
+}
+
+// 提前退出(提前返回)
+func greet(person: [String:String]) {
+    guard let name = person[&quot;name&quot;] else {
+        return
+    }
+    print(&quot;\(name)&quot;)
+}
+
+greet([&quot;age&quot;:&quot;18&quot;])
+
+// 4. 函数
+func greet(name: String, day: String) {
+    print(&quot;Hello \(name), today is \(day)&quot;)
+}
+
+// 第二个参数默认需要指定名称
+greet(&quot;tom&quot;, day: &quot;2016&quot;)
+
+func sum(a: Int, b: Int) -&gt; Int {
+    return a + b
+}
+
+sum(1, b: 2)
+
+// 多重返回值
+func minMax(array: [Int]) -&gt; (min: Int, max: Int) {
+    // ...
+    return (0, 1)
+}
+
+// 可选返回值加 ?
+func minMax2(array: [Int]) -&gt; (min: Int, max: Int)? {
+    if array.isEmpty { return nil }
+    return (0, 1)
+}
+
+// 指定外部参数名
+func sayHello(to person: String, and anotherPerson: String) {
+    print(&quot;Hello \(person) and \(anotherPerson)&quot;)
+}
+
+sayHello(to: &quot;coderzh&quot;, and: &quot;tom&quot;)
+
+// 忽略外部参数名，使用 _
+func sayHello2(person: String, _ anotherPerson: String) {
+    print(&quot;Hello \(person) and \(anotherPerson)&quot;)
+}
+
+sayHello2(&quot;coderzh&quot;, &quot;jack&quot;)
+
+// 默认参数
+func someFunction(p: Int = 10) {
+    print(&quot;\(p)&quot;)
+}
+
+someFunction()
+
+// 可变参数
+func sum(numbers: Int...) -&gt; Int {
+    var total = 0
+    for n in numbers {
+        total += n
+    }
+
+    return total
+}
+
+sum(1, 2, 3, 4, 5)
+
+// 参数默认是常量类型，如需指定变量类型，前面加 var（swift 3 将移除 var）
+func alignRight(var string: String, totalLength: Int, pad: Character) -&gt; String {
+    string = string + &quot;!&quot;
+    return string
+}
+
+// 传入传出参数 inout
+func swap(inout a: Int, inout _ b: Int) {
+    let temp = a
+    a = b
+    b = temp
+}
+
+var someInt = 7
+var anotherInt = 8
+
+// inout 参数必须加 &amp;
+swap(&amp;someInt, &amp;anotherInt)
+
+// 函数类型，函数变量
+var sumFunc: (Int, Int) -&gt; Int = sum
+sumFunc(1, 2)
+
+// 函数可做参数
+func doSum(handler:(Int, Int) -&gt; Int, _ a: Int, _ b: Int) {
+    handler(a, b)
+}
+
+// 函数可做返回值
+func getSum() -&gt; (Int, Int) -&gt; Int {
+    // 函数可嵌套
+    func someFunc(a: Int, b: Int) -&gt; Int { return a + b }
+    return someFunc
+}
+
+doSum(sum, 2, 3)
+
+// 闭包
+// 闭包是引用类型
+let reversed2 = shoppingList.sort({a, b in a &lt; b})
+let r = shoppingList.sort({ $0 &lt; $1 })
+let r2 = shoppingList.sort(&lt;)
+let r3 = shoppingList.sort{ $0 &lt; $1 }
+
+// 非逃逸闭包（noescape closure）
+// 闭包只能在函数内执行，不能「逃逸」出去
+func someClosure(@noescape closure: () -&gt; Void) {
+    closure()
+}
+
+// 自动闭包（这样不用写花括号了？）
+func autoClosure(@autoclosure provider: () -&gt; String) {
+    provider()
+}
+
+autoClosure(shoppingList.removeAtIndex(0))
+
+// 5. 枚举（一等公民，十分强大）
+// 值类型
+enum Rank: Int {
+    case Ace = 1
+    case Two, Three
+}
+
+var ace = Rank.Ace  // Ace
+Rank.Ace.rawValue  // 1
+let ace1 = Rank(rawValue: 1)  // Ace
+ace = .Two
+
+enum ServerResponse {
+    case Result(String, String)
+    case Error(String)
+}
+
+// 可失败构造器
+enum TemperatureUnit {
+    case Kelvin, Celsius, Fahrenheit
+    init?(symbol: Character) {
+        switch symbol {
+        case &quot;K&quot;:
+            self = .Kelvin
+        case &quot;C&quot;:
+            self = .Celsius
+        case &quot;F&quot;:
+            self = .Fahrenheit
+        default:
+            return nil
+        }
+    }
+}
+
+
+let success = ServerResponse.Result(&quot;6:00am&quot;, &quot;6:00pm&quot;)
+let failure = ServerResponse.Error(&quot;Out of cheese&quot;)
+
+switch success {
+case let .Result(sunrise, sunset):
+    let serverResponse = &quot;sunrise at \(sunrise), sunset at \(sunset)&quot;
+case let .Error(error):
+    let serverResponse = &quot;Error \(error)&quot;
+}
+
+// 枚举递归...
+enum ArithmeticExpression {
+    case Number(Int)
+    indirect case Addition(ArithmeticExpression, ArithmeticExpression)
+    indirect case Multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+
+func evaluate(expression: ArithmeticExpression) -&gt; Int {
+    switch expression {
+    case .Number(let value):
+        return value
+    case .Addition(let left, let right):
+        return evaluate(left) + evaluate(right)
+    case .Multiplication(let left, let right):
+        return evaluate(left) * evaluate(right)
+    }
+}
+
+// 计算 (5 + 4) * 2
+let five = ArithmeticExpression.Number(5)
+let four = ArithmeticExpression.Number(4)
+let sum2 = ArithmeticExpression.Addition(five, four)
+let product = ArithmeticExpression.Multiplication(sum2, ArithmeticExpression.Number(2))
+print(evaluate(product)) // 输出 &quot;18”
+
+// 6. 类和结构体
+// 结构体是值类型，类是引用类型
+class SomeClass {
+    var width = 0
+    var height = 0
+
+    // class 不需要 mutating
+    func incrementWidth() {
+        self.width += 1
+    }
+
+    // 下标操作： [n]
+    subscript(index: Int) -&gt; Int {
+        get {
+            return 0
+        }
+        set(newValue) {
+            // set from newValue
+        }
+    }
+}
+
+let s1 = SomeClass()
+
+struct SomeStruct {
+    static var someValue = 100
+    static func staticFunc() -&gt; Int {
+        return 1
+    }
+
+    var x = 0
+    var y = 0
+
+    var doubleX: Int {
+        get {
+            return x * 2
+        }
+        set {
+            x = newValue / 2
+        }
+    }
+
+    // readonly
+    var doubleY: Int {
+        return y * 2
+    }
+
+    var total: Int {
+        willSet(newTotal) {
+            print(&quot;will set \(newTotal)&quot;)
+        }
+
+        didSet {
+            print(&quot;old: \(oldValue), new: \(total)&quot;)
+        }
+    }
+
+    // 如果会改变类成员，比如声明 mutating
+    mutating func incrementX() {
+        self.x += 1
+    }
+}
+
+var s2 = SomeStruct(x: 2, y: 3, total: 10)
+s2.doubleX = 10  // s2.x == 5
+s2.total = 5
+
+// 继承
+class Animal {
+    // 构造函数
+    init() {
+
+    }
+
+    // 必要构造器，子类必须实现，而且声明为 required
+    required init(name: String, age: Int) {
+
+    }
+
+    func makeNoise() {
+        print(&quot;wowowo&quot;)
+    }
+}
+
+class Cat: Animal {
+    var name: String = &quot;&quot;
+    var nickName: String = &quot;&quot;
+
+    init(name: String) {
+        super.init()
+        self.name = name
+    }
+
+    init(fromNickName nickName: String) {
+        super.init(name: nickName, age: 18)
+        self.nickName = nickName
+    }
+
+    // 便利构造器：必须调用其他构造器
+    convenience override init() {
+        self.init(name: &quot;UnKnown&quot;)
+    }
+
+    // 可失败构造器
+    init?(age: Int) {
+        super.init(name: &quot;UnKnown&quot;, age: age)
+        if age &lt; 0 { return nil }
+    }
+
+    required init(name: String, age: Int) {
+        self.name = name
+        super.init(name: name, age: age)
+    }
+
+    // 析构，默认会先调用父类的析构
+    deinit {
+
+    }
+
+    override func makeNoise() {
+        print(&quot;miaomiaomiao&quot;)
+    }
+}
+
+final class CannotInheirt {
+
+}
+
+// 7. 自动引用计数 ARC
+// weak 弱引用
+// unowned 无主引用
+
+// 8. 可空链式调用
+/* For example:
+if let johnsStreet = john.residence?.address?.street {
+    print(&quot;John's street name is \(johnsStreet).&quot;)
+} else {
+    print(&quot;Unable to retrieve the address.&quot;)
+}
+*/
+// 如果确定有值，使用!
+// let roomCount = john.residence!.numberOfRooms
+
+
+// 9. 错误处理
+
+enum CustomError : ErrorType {
+    case Invalid
+    case OutOfRange
+}
+
+func makeASandwich() throws -&gt; String {
+    throw CustomError.Invalid
+}
+
+do {
+    try makeASandwich()
+} catch CustomError.Invalid {
+    print(&quot;Invalid&quot;)
+}
+
+// 可空
+let x = try? makeASandwich()
+// 使错误传递失效，肯定不throw，否则 assert
+// let y = try! makeASandwich()
+
+// defer 和 Golang 里的 defer 一样，用来退出清理
+/*
+func processFile(filename: String) throws {
+    if exists(filename) {
+        let file = open(filename)
+        defer {
+            close(file)
+        }
+        while let line = try file.readline() {
+            // 处理文件
+        }
+        // 在这里，作用域的最后调用 close(file)
+    }
+}
+*/
+
+// 10. 类型转换： is as （和 CSharp 类似）
+// 任意类型：
+// 1. AnyObject 任何 class 类型实例
+// 2. Any 任何类型
+
+// 11. 扩展（extension，类似 CSharp 里的扩展方法，但是貌似更强大）
+// 比如：扩展内置类型 Double
+// 几乎一切都可扩展，用到时再查用法吧
+extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m : Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+
+// 12. 协议（类似接口的东西）
+// 当同时有继承时，先写继承，再写协议，协议可以有多个
+protocol FullyNamed {
+    var fullName: String { get }
+}
+
+// 协议也可继承
+protocol SubFullyNamed: FullyNamed {
+    var nickName: String { get }
+}
+
+struct Person: FullyNamed{
+    var fullName: String
+}
+
+// 专属协议，指定只能用在 class 上
+protocol ClassOnlyProtocol: class, FullyNamed {
+
+}
+
+protocol Aged {
+    var age: Int { get set }
+}
+
+// 协议合成
+func foo(pro: protocol&lt;FullyNamed, Aged&gt;, base: Any) {
+    // 协议判断
+    if let p = base as? Aged {
+        print(p.age)
+    }
+}
+
+// 可选协议（既然是协议，还可选，醉了）
+// @objc protocol
+
+// 13. 泛型
+func swapTwoValues&lt;T&gt;(inout a: T, inout _ b: T) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+
+// 泛型约束
+func someFunction&lt;T: SomeClass, U: FullyNamed&gt;(someT: T, someU: U) {
+    // 这里是函数主体
+}
+
+// Where
+/*
+func allItemsMatch&lt;
+    C1: Container, C2: Container
+    where C1.ItemType == C2.ItemType, C1.ItemType: Equatable&gt;
+    (someContainer: C1, anotherContainer: C2) -&gt; Bool {
+}
+*/
+
+// 14. 访问控制
+// public internal（默认） private
+// 加在 class var 等前
+</code></pre>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/" data-tooltip="善良比聪明更难">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/04/17/gold-time-of-programmer/" data-tooltip="程序员的黄金时代">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/" data-tooltip="善良比聪明更难">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/04/17/gold-time-of-programmer/" data-tooltip="程序员的黄金时代">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+  
+
+
+
+    
+  </body>
+</html>
+

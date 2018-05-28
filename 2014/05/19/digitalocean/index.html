@@ -1,0 +1,693 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>DigitalOcean上使用Tornado&#43;MongoDB&#43;Nginx&#43;Supervisor&#43;DnsPod快速搭建个人博客</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content=", 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+
+    
+    <meta name="description" content="DigitalOcean
+
+之前买了个便宜的VPS并且在上面搭建了我自己写的博客程序，后来VPS里运行MongoDB经常自己挂掉就索性没理了。直到现在VPS已经过期，服务器被强制关掉了。周末在家索性想着把这个博客程序重新搭建起来。
+
+">
+    <meta property="og:description" content="DigitalOcean
+
+之前买了个便宜的VPS并且在上面搭建了我自己写的博客程序，后来VPS里运行MongoDB经常自己挂掉就索性没理了。直到现在VPS已经过期，服务器被强制关掉了。周末在家索性想着把这个博客程序重新搭建起来。
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="DigitalOcean上使用Tornado&#43;MongoDB&#43;Nginx&#43;Supervisor&#43;DnsPod快速搭建个人博客">
+    <meta property="og:url" content="/2014/05/19/digitalocean/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="DigitalOcean
+
+之前买了个便宜的VPS并且在上面搭建了我自己写的博客程序，后来VPS里运行MongoDB经常自己挂掉就索性没理了。直到现在VPS已经过期，服务器被强制关掉了。周末在家索性想着把这个博客程序重新搭建起来。
+
+">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      DigitalOcean上使用Tornado&#43;MongoDB&#43;Nginx&#43;Supervisor&#43;DnsPod快速搭建个人博客
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-05-19T00:00:00Z">
+        
+   19, 2014
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h3 id="digitalocean">DigitalOcean</h3>
+
+<p>之前买了个便宜的VPS并且在上面搭建了我自己写的博客程序，后来VPS里运行MongoDB经常自己挂掉就索性没理了。直到现在VPS已经过期，服务器被强制关掉了。周末在家索性想着把这个博客程序重新搭建起来。</p>
+
+<p></p>
+
+<p>选择Linode还是云主机（阿里云等等）？阿里云貌似有些贵，而且还有一堆备案的流程。Linode最近推出SSD服务，20刀/月的价格，加量不加价，很是吸引人。但无奈还是花的有些心疼。忽然另外一个VPS服务<a href="https://www.digitalocean.com/?refcode=e131e2bba197">DigitalOcean</a>(链接含refcode喔)被我无意发现。DigitalOcean是一家IaaS服务提供商，其特色就是提供快速的固态硬盘服务器，该公司宣称可在55秒之内搭建好一台云服务器，所有的服务器均拥有1G的网络接口，每月基础套餐为1TB，最低套餐费用仅为5美元/月。</p>
+
+<p><img src="http://images.cnitblog.com/blog/16913/201405/190032003752557.jpg" alt="DigitalOcean" /></p>
+
+<p>每个月20刀的配置和Linode的20刀的配置几乎一样。但是DigitalOcean提供了最低5美元/月的配置，而且如果使用优惠码注册，还能免费送10美元。相当于免费使用2个月。于是我选择了5美元的配置，Google了一把优惠码，并且非常顺利的找到了能用的。Google搜索：digitalocean coupon。我是在这里找到： <a href="http://www.retailmenot.com/view/digitalocean.com">http://www.retailmenot.com/view/digitalocean.com</a></p>
+
+<p>注册，填入优惠码，选择5$的主机类型，主机位置我选了旧金山（美国西部，据说比其他的稳定），操作系统选择了Ubuntu 14.04 x64。一切都非常顺利，正如他们的广告所说的，55秒内，一台热乎乎的VPS送到了我的手上。</p>
+
+<p>有兴趣的同学可以用我的推荐链接注册哦，我也能得到一些好处。注册链接：<a href="https://www.digitalocean.com/?refcode=e131e2bba197">DigitalOcean</a>
+用到哪天不想用了，DigitalOcean还提供了生成一个镜像(Image)的功能，然后你取消掉VPS服务器(Droplets)，之后将不收取费用。哪天忽然又想用了再开通它，用之前的镜像一还原，马上就恢复了之前的环境，很是方便。</p>
+
+<h3 id="vps安装必要的软件">VPS安装必要的软件</h3>
+
+<pre><code>sudo apt-get install git
+sudo apt-get install python-pip
+sudo apt-get install nginx
+sudo apt-get install supervisor
+sudo pip install tornado
+sudo pip install pymongo
+sudo pip install beautifulsoup4
+</code></pre>
+
+<p>（我安装了beautifulsoup是因为我做了个工具把博客园的博客导入过来。）
+mongodb 安装：<a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/">http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/</a></p>
+
+<h3 id="博客程序">博客程序</h3>
+
+<p>之前我用python+tornado+pymongo写了一套博客程序，只是给我自己使用，所以我放在了私有仓库<a href="http://bitbucket.org">bitbucket</a>上。
+网站程序一般放在/var/www目录里。所以我用git clone把我的代码放到了/var/www/coderzh</p>
+
+<pre><code>sudo mkdir /var/www
+cd /var/www
+git clone https://xxxxx.xxxx.xxx
+</code></pre>
+
+<h3 id="mongodb">MongoDB</h3>
+
+<p>由于我的程序没有使用MongoDB默认的端口27017，所以我需要修改端口的设置。找到MongoDB的配置文件，修改port字段：</p>
+
+<pre><code>vim /etc/mongodb.conf
+#修改port=27017部分 
+</code></pre>
+
+<p>停止和重启mongodb：</p>
+
+<pre><code>sudo service mongodb stop
+sudo service mongodb start
+</code></pre>
+
+<h3 id="运行博客程序">运行博客程序</h3>
+
+<p>博客程序运行需要的环境已经基本配置好，这时运行博客程序看是否能正常起来：</p>
+
+<pre><code>sudo python /var/www/coderzh/main.py --port 8001
+</code></pre>
+
+<p>打开浏览器试试能不能访问: <code>http://服务器IP:8001</code>   OK，太棒了，一起正常。</p>
+
+<h3 id="supervisor">Supervisor</h3>
+
+<p>停掉刚才的main.py，这时候要上一个好东西。它就是Supervisor，它是一个进程监控守护程序。它负责开机时自动启动你配置好的程序，并且在你的程序莫名其妙挂掉时，Supervisor会自动去重启他们。可以说，它是网站稳定运行的后勤保障啊。</p>
+
+<p>新建一个Supervisor配置文件，放到/ect/supervisor/conf.d目录下，因为/etc/supervisor/supervisord.conf里配置了自动读取conf.d目录下的文件：</p>
+
+<pre><code>vim /ect/supervisor/conf.d/coderzh.conf
+</code></pre>
+
+<p>编辑coderzh.conf</p>
+
+<pre><code>[program:coderzh]
+command=python /var/www/coderzh/main.py --port=8001
+directory=/var/www/coderzh
+autorestart=true
+redirect_stderr=true
+</code></pre>
+
+<p>重载配置，重启Supervisior：</p>
+
+<pre><code>supervisorctl reload 
+supervisorctl start all
+</code></pre>
+
+<p>再次访问: <code>http://服务器IP:8001</code>   试试，嗯，一起正常。Supervisor工作了。</p>
+
+<h3 id="nginx">Nginx</h3>
+
+<p>接下来上Nginx，它是一个HTTP和反向代理服务器。最终网站的访问经过域名解析到服务器后，都要通过Nginx将访问请求转到main.py中处理。理解Nginx的配置文件很重要，好吧，说实话，我当初摸Nginx，Apache之类的东西时都是一头雾水的。Nginx的主要配置文件路径在：/etc/nginx/nginx.conf</p>
+
+<p>为了让Nginx支持多域名，多Web服务。我修改/etc/nginx/nginx.conf 内容如下：</p>
+
+<pre><code>user www-data;
+worker_processes 4;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 1024;
+    use epoll;
+}
+
+http {
+    types_hash_max_size 2048;
+    server_names_hash_bucket_size 64;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+ 
+    access_log /var/log/nginx/access.log;
+ 
+    keepalive_timeout 65;
+    proxy_read_timeout 200;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    gzip on;
+    gzip_min_length 1000;
+    gzip_proxied any;
+    gzip_types text/plain application/x-javascript text/css application/xml; 
+
+    include /etc/nginx/conf.d/*;
+}
+</code></pre>
+
+<p>注意最后一行：include /etc/nginx/conf.d/*，所以在conf.d目录里，可以为每个网站都配置一个.conf文件。我为博客程序生产的配置：vim /etc/nginx/conf.d/coderzh.conf</p>
+
+<pre><code>upstream coderzh {
+    server 127.0.0.1:8001;
+}
+
+server {
+    listen 80;
+    server_name coderzh.com www.coderzh.com;
+
+    location = /favicon.ico {
+        rewrite (.*) /static/favicon.ico;
+    }
+    location = /robots.txt {
+        rewrite (.*) /static/robots.txt;
+    }
+
+    location / {
+        proxy_pass_header Server;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Scheme $scheme;
+        proxy_pass http://coderzh;
+    }
+}
+</code></pre>
+
+<p>重新启动nginx</p>
+
+<pre><code>service nginx restart
+</code></pre>
+
+<p>这时已经可以用80端口访问了。</p>
+
+<h3 id="dnspod">DnsPod</h3>
+
+<p>接下来就是通过DnsPod将域名解析到这台VPS服务器。应该不是什么问题，有问题可以查看DnsPod帮助。</p>
+
+<h3 id="部署完成">部署完成</h3>
+
+<p>执行导入工具，将博客园的博客导入进来。访问：<a href="http://www.coderzh.com">http://www.coderzh.com</a>。HOHO，大功告成。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2014/09/07/startup/" data-tooltip="创业感悟">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2014/04/02/3640179/" data-tooltip="ViEmuVS2013-3.2.1 破解">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2014/09/07/startup/" data-tooltip="创业感悟">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2014/04/02/3640179/" data-tooltip="ViEmuVS2013-3.2.1 破解">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+  
+
+
+
+    
+  </body>
+</html>
+

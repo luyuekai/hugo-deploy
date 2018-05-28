@@ -1,0 +1,661 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <title>即使被拖库，也可以保证密码不泄露</title>
+    <meta name="author" content="CoderZh">
+    <meta name="keywords" content="加盐, hash, 拖库, 攻击, 方案, 231, 139, 172, 231, 171, 139, 229, 141, 154, 229, 174, 162, 44, 231, 168, 139, 229, 186, 143, 229, 145, 152, 44, 230, 128, 157, 232, 128, 131, 44, 232, 175, 187, 228, 185, 166, 231, 172, 148, 232, 174, 176, 44, 230, 138, 128, 230, 156, 175, 229, 136, 134, 228, 186, 171">
+
+    <link rel="icon" href="https://blog.coderzh.com/favicon.png">
+    
+
+    
+    <meta name="description" content="即使被拖库，也可以保证密码不泄露">
+    <meta property="og:description" content="即使被拖库，也可以保证密码不泄露">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="即使被拖库，也可以保证密码不泄露">
+    <meta property="og:url" content="/2016/01/10/a-password-security-design-example/">
+    <meta property="og:site_name" content="CoderZh Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoderZh Blog">
+    <meta name="twitter:description" content="即使被拖库，也可以保证密码不泄露">
+    
+    
+
+    
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://blog.coderzh.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://blog.coderzh.com/">CoderZh Blog</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="">
+  <div class="sidebar-container">
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/post/">
+    
+      <i class='fa fa-heart'></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://blog.coderzh.com/about/">
+    
+      <i class='fa fa-road'></i>
+      
+      <span class="sidebar-button-desc">关于我</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior=""
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      即使被拖库，也可以保证密码不泄露
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2016-01-10T23:06:42&#43;08:00">
+        
+   10, 2016
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="https://blog.coderzh.com/categories/%e6%8a%80%e6%9c%af%e6%96%87%e7%ab%a0">技术文章</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>在前一篇文章《<a href="http://blog.coderzh.com/2016/01/03/security-design/">设计安全的账号系统的正确姿势</a>》中，主要提出了一些设计的方法和思路，并没有给出一个更加具体的，可以实施的安全加密方案。经过我仔细的思考并了解了目前一些方案后，我设计了一个自认为还比较安全的安全加密方案。本文主要就是讲述这个方案，非常欢迎和期待有读者一起来讨论。</p>
+
+<p>首先，我们明确一下安全加密方案的终极目标：</p>
+
+<p><strong>即使在数据被拖库，代码被泄露，请求被劫持的情况下，也能保障用户的密码不被泄露。</strong></p>
+
+<p>说具体一些，我们理想中的绝对安全的系统大概是这样的：</p>
+
+<ol>
+<li>首先保障数据很难被拖库。</li>
+<li>即使数据被拖库，攻击者也无法从中破解出用户的密码。</li>
+<li>即使数据被拖库，攻击者也无法伪造登录请求通过验证。</li>
+<li>即使数据被拖库，攻击者劫持了用户的请求数据，也无法破解出用户的密码。</li>
+</ol>
+
+<p>如何保障数据不被拖库，这里就不展开讲了。首先我们来说说密码加密。现在应该很少系统会直接保存用户的密码了吧，至少也是会计算密码的 md5 后保存。md5 这种不可逆的加密方法理论上已经很安全了，但是随着彩虹表的出现，使得大量长度不够的密码可以直接从彩虹表里反推出来。</p>
+
+<p>所以，只对密码进行 md5 加密是肯定不够的。聪明的程序员想出了个办法，即使用户的密码很短，只要我在他的短密码后面加上一段很长的字符，再计算 md5 ，那反推出原始密码就变得非常困难了。加上的这段长字符，我们称为盐（Salt），通过这种方式加密的结果，我们称为 <code>加盐 Hash</code> 。比如：</p>
+
+<p><img src="http://7xlx3k.com1.z0.glb.clouddn.com/salt.png" alt="salt" /></p>
+
+<p>上一篇我们讲过，常用的哈希函数中，SHA-256、SHA-512 会比 md5 更安全，更难破解，出于更高安全性的考虑，我的这个方案中，会使用 SHA-512 代替 md5 。</p>
+
+<p><img src="http://7xlx3k.com1.z0.glb.clouddn.com/sha-512.png" alt="salt" /></p>
+
+<p>通过上面的加盐哈希运算，即使攻击者拿到了最终结果，也很难反推出原始的密码。不能反推，但可以正着推，假设攻击者将 salt 值也拿到了，那么他可以枚举遍历所有 6 位数的简单密码，加盐哈希，计算出一个结果对照表，从而破解出简单的密码。这就是通常所说的暴力破解。</p>
+
+<p>为了应对暴力破解，我使用了加盐的<strong>慢哈希</strong>。慢哈希是指执行这个哈希函数非常慢，这样暴力破解需要枚举遍历所有可能结果时，就需要花上非常非常长的时间。比如：bcrypt 就是这样一个慢哈希函数：</p>
+
+<p><img src="http://7xlx3k.com1.z0.glb.clouddn.com/bcrypt.png" alt="bcrypt" /></p>
+
+<p>通过调整 <code>cost</code> 参数，可以调整该函数慢到什么程度。假设让 bcrypt 计算一次需要 0.5 秒，遍历 6 位的简单密码，需要的时间为：((26 * 2 + 10)^6) / 2 秒，约 900 年。</p>
+
+<p>好了，有了上面的基础，来看看我的最终解决方案：</p>
+
+<p><img src="http://7xlx3k.com1.z0.glb.clouddn.com/password_security.jpg" alt="password_secutity" /></p>
+
+<p>上图里有很多细节，我分阶段来讲：</p>
+
+<p><strong>1. 协商密钥</strong></p>
+
+<p>基于非对称加密的密钥协商算法，可以在通信内容完全被公开的情况下，双方协商出一个只有双方才知道的密钥，然后使用该密钥进行对称加密传输数据。比如图中所用的 ECDH 密钥协商。</p>
+
+<p><strong>2. 请求 Salt</strong></p>
+
+<p>双方协商出一个密钥 SharedKey 之后，就可以使用 SharedKey 作为 AES 对称加密的密钥进行通信，客户端传给服务端自己的公钥 A ，以及加密了的用户ID（uid）。服务端从数据库中查找到该 uid 对于的 Salt1 和 Salt2 ，然后再加密返回给客户端。</p>
+
+<p>注意，服务端保存的 Salt1 和 Salt2 最好和用户数据分开存储，存到其他服务器的数据库里，这样即使被 SQL 注入，想要获得 Salt1 和 Salt2 也会非常困难。</p>
+
+<p><strong>3. 验证密码</strong></p>
+
+<p>这是最重要的一步了。客户端拿到 Salt1 和 Salt2 之后，可以计算出两个加盐哈希：</p>
+
+<pre><code>SaltHash1 = bcrypt(SHA512(password), uid + salt1, 10)
+SaltHash2 = SHA512(SaltHash1 + uid + salt2)
+</code></pre>
+
+<p>使用 SaltHash2 做为 AES 密钥，加密包括 uid，time，SaltHash1，RandKey 等内容传输给服务端：</p>
+
+<pre><code>Ticket = AES(SaltHash2, uid + time + SaltHash1 + RandKey)
+AES(SharedKey, Ticket)
+</code></pre>
+
+<p>服务端使用 SharedKey 解密出 Ticket 之后，再从数据库中找到该 uid 对应的 SaltHash2 ，解密 Ticket ，得到 SaltHash1 ，使用 SaltHash1 重新计算 SaltHash2 看是否和数据库中的 SaltHash2 一致，从而验证密码是否正确。</p>
+
+<p>校验两个哈希值是否相等时，使用时间恒定的比较函数，防止试探性攻击。</p>
+
+<p>time 用于记录数据包发送的时间，用来防止录制回放攻击。</p>
+
+<p><strong>4. 加密传输</strong></p>
+
+<p>密码验证通过后，服务端生成一个随机的临时密钥 TempKey（使用安全的随机函数），并使用 RandKey 做为密钥，传输给客户端。之后双方的数据交互都通过 TempKey 作为 AES 密钥进行加密。</p>
+
+<h4 id="假设被拖库了">假设被拖库了</h4>
+
+<p>以上就是整个加密传输、存储的全过程。我们来假设几种攻击场景：</p>
+
+<ol>
+<li><p><strong>假设数据被拖库了，密码会泄露吗？</strong></p>
+
+<p>数据库中的 Salt1 ，Salt2 ， SaltHash2 暴露了，想从 SaltHash2 直接反解出原始密码几乎是不可能的事情。</p></li>
+
+<li><p><strong>假设数据被拖库了，攻击者能不能伪造登录请求通过验证？</strong></p>
+
+<p>攻击者在生成 Ticket 时，需要 SaltHash1 ，但由于并不知道密码，所以无法计算出 SaltHash1 ，又无法从 SaltHash2 反推 SaltHash1 ，所以无法伪造登录请求通过验证。</p></li>
+
+<li><p><strong>假设数据被拖库了，攻击者使用中间人攻击，劫持了用户的请求，密码会被泄露吗？</strong></p>
+
+<p>中间人拥有真实服务器所有的数据，仿冒了真实的 Server ，因此，他可以解密出 Ticket 中的 SaltHash1 ，<strong>但是 SaltHash1 是无法解密出原始密码的。所以，密码也不会被泄露。</strong></p>
+
+<p>但是，中间人攻击可以获取到最后的 TempKey ，从而能监听后续的所有通信过程。这是很难解决的问题，因为在服务端所有东西都暴露的情况下，中间人假设可以劫持用户数据，仿冒真实 Server , 是很难和真实的 Server 区分开的。解决的方法也许只有防止被中间人攻击，保证 Server 的公钥在客户端不被篡改。</p>
+
+<p>假设攻击已经进展到了这样的程度，还有办法补救吗？有。由于攻击者只能监听用户的登录过程，并不知道真实的密码。所以，只需要在服务端对 Salt2 进行升级，即可生成新的 SaltHash2 ，从而让攻击者所有攻击失效。</p>
+
+<p>具体是这样的：用户正常的登录，服务端验证通过后，生成新的 Salt2 ，然后根据传过来的 SaltHash1 重新计算了 SaltHash2 存入数据库。下次用户再次登录时，获取到的是新的 Salt2 ，密码没有变，同样能登录，攻击者之前拖库的那份数据也失效了。</p></li>
+</ol>
+
+<h4 id="q-a">Q &amp; A</h4>
+
+<ol>
+<li><p>使用 bcrypt 慢哈希函数，服务端应对大量的用户登录请求，性能承受的了吗？</p>
+
+<p>该方案中，细心一点会注意到， bcrypt 只是在客户端进行运算的，服务端是直接拿到客户端运算好的结果（ SaltHash1 ）后 SHA-512 计算结果进行验证的。所以，把性能压力分摊到了各个客户端。</p></li>
+
+<li><p>为什么要使用两个 Salt 值？</p>
+
+<p>使用两个 Salt 值，是为了防止拖库后，劫持了用户请求后将密码破解出来。只有拥有密码的用户，才能用第一个 Salt 值计算出 SaltHash1 ，并且不能反推回原始密码。第二个 Salt 值可以加大被拖库后直接解密出 SaltHash1 的难度。</p></li>
+
+<li><p>为什么要动态请求 Salt1 和 Salt2 ？</p>
+
+<p>Salt 值直接写在客户端肯定不好，而且写死了要修改还得升级客户端。动态请求 Salt 值，还可以实现不升级客户端的情况下，对密码进行动态升级：服务端可定期更换 Salt2 ，重新计算 SaltHash2 ，让攻击者即使拖了一次数据也很快处于失效状态。</p></li>
+
+<li><p>数据库都已经全被拖走了，密码不泄露还有什么意义呢？</p>
+
+<p>其实是有意义的，正如刚刚提到的升级 Salt2 的补救方案，用户可以在完全不知情的情况下，不需要修改密码就升级了账号体系。同时，保护好用户的密码，不被攻击者拿去撞别家网站的库，也是一份责任。</p></li>
+</ol>
+
+<p>欢迎大家针对本文的方案进行讨论，如有不实或者考虑不周的地方，请尽情指出。或者有更好的建议或意见，欢迎交流！</p>
+
+<h3 id="更新-反馈汇总">更新：反馈汇总</h3>
+
+<ol>
+<li><p><strong>“应该从源头上禁止用户使用简单密码”</strong></p>
+
+<p>回复：非常同意！</p></li>
+
+<li><p><strong>“获取 salt 并不需要啥验证，那么还有必要分开存储么，脱裤者直接根据uid调一遍接口不就拿到了？相当于就是公开的吧？”</strong></p>
+
+<p>回复：确实是这样。salt 相当于公开的了，没有必要分开存储了。如果你有更好的方法，请告诉我。</p></li>
+
+<li><p><strong>“使用 HTTPS(SSL/TLS) 来保障传输的安全是不是就可以了？”</strong></p>
+
+<p>回复：理论上是足够了，而且推荐使用。 如果你的项目安全级别非常高，本着不信任绝对安全的角度可考虑再一层加固。</p></li>
+
+<li><p><strong>“salt 使用密码学安全的随机数生成就够了，不需要使用 uid 。”</strong></p>
+
+<p>回复：同意，确实不是很必要。</p></li>
+
+<li><p><strong>“服务器性能够强劲，bcrypt 放在服务端执行也没什么问题。”</strong></p>
+
+<p>回复：通过调整 bcrypt 参数让服务端执行在可接受的时间范围内确实可以。但是把这种耗时的操作放到客户端去做不是更好吗？</p></li>
+
+<li><p><strong>“不知攻焉知防，还是使用现有的算法和协议比较好，不要自己发明。即使自己发明，也需要经过实践的检验不断迭代才行。”</strong></p>
+
+<p>回复：首先，文中用到的都是现有的成熟算法，如 bcrypt，SHA-512， AES ，包括 <a href="https://msdn.microsoft.com/zh-cn/library/cc488016%28v=vs.90%29.aspx">ECDH</a>，并没有重新发明什么。文章<strong>重点是对密码的两次加盐哈希以及密码的验证方式</strong>。当然，方案需要在实践中不断迭代优化，我也是不能同意再多。</p></li>
+</ol>
+
+<p>有一位朋友说的非常好，很多互联网公司对安全不重视，近年来密码安全事故频繁发生，导致密码泄露后被拿去撞库，用户利益受损。<strong>应该去推动一下密码安全的业界标准，避免企业犯错用户买单</strong>。同时，<strong>互联网没有绝对的安全，强烈建议用户不要用同一个密码，密码定期改！</strong></p>
+
+<p></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/01/13/password-security-additional/" data-tooltip="被脱裤也不怕 - 反馈总结">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/01/03/security-design/" data-tooltip="设计安全的账号系统的正确姿势">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CoderZh. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/01/13/password-security-additional/" data-tooltip="被脱裤也不怕 - 反馈总结">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://blog.coderzh.com/2016/01/03/security-design/" data-tooltip="设计安全的账号系统的正确姿势">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+    <h4 id="about-card-name">CoderZh</h4>
+    
+    
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2018/02/25/my-2017/">
+                <h3 class="media-heading">我的 2017</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">2017 总结：写了一篇博客，发了一篇公众号。完。 为什么写的少了，如果说因为带娃太忙没有时间，都是借口，时间挤一挤总会有的。这一年，我看了一些书，学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2017/01/01/my-2016/">
+                <h3 class="media-heading">我的 2016</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">光阴似箭，岁月如梭，仿佛去年写「我的 2015」就在昨日，然而时间的确在滴滴答答中度过了 365 天。这一年里，经历了一些事，读了一些书，努力过，收获</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/10/16/real-hacker/">
+                <h3 class="media-heading">真正的黑客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">当听到「黑客」一词时，你的第一反应是什么？是行为古怪，专门通过计算机干坏事的坏蛋，还是深藏不漏令人敬仰的技术大神。我们从小形成的固有观点认为</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/09/25/small-plan/">
+                <h3 class="media-heading">小目标</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">两个多月没更新了，感谢一直关注的小伙伴们。 上篇文章《一次 CTF 之旅》有读者评论，会不会因为学习的东西太多而每个都不精通？以我的经验来看，会的。 曾</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/07/11/a-ctf-tour/">
+                <h3 class="media-heading">一次 CTF 之旅</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有好几周没有发文章了，具体原因是上上周末去了团建，上周末主要在研读《Android 软件安全与逆向分析》一书。我报名参加了公司第一次 CTF 比赛，结</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/19/podcasts/">
+                <h3 class="media-heading">聊聊播客</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">播客（Podcast）已经不是什么新鲜的东西了。记得大概在 06 年左右，我经常逛博客园，当时 .NET 圈有个人开了一个独立播客，每篇文章就是一段录好的音</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/11/to-hecaitou/">
+                <h3 class="media-heading">代自己：《致和菜头书》</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">和菜头先生， 恭喜您在《得到》APP 开启了《槽边往事》新的篇章！我是读者 CoderZh，你开设付费栏目后第一时间付费并给你写信的人。你也许会好</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/06/05/elon-musk/">
+                <h3 class="media-heading">马斯克的冒险</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">埃隆·马斯克（Elon Musk）出生在一个冒险家庭。他的外祖父约书亚就是个不折不扣的冒险家。在约书亚 7 岁时父亲就去世了，于是他便维持起了家里</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/29/game-changed-world/">
+                <h3 class="media-heading">游戏必将改变世界</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">有一项活动，它人为的制作了种种不必要的障碍，而你却自愿参与，即使过程需要花费大量时间，艰苦的工作，但是你却依然乐在其中。 这项活动叫：游戏。 我</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://blog.coderzh.com/2016/05/15/kind-or-clever/">
+                <h3 class="media-heading">善良比聪明更难</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Jeff, one day you&rsquo;ll understand that it&rsquo;s harder to be kind than clever. 杰夫，总有一天你会明白，善良比聪明更难。 Jeff Bezos 毕业于普林斯顿大学，是美国亚马逊的创始人。在 2010 年普林斯顿大学学士毕业典</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         319 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://blog.coderzh.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+  
+
+
+
+    
+  </body>
+</html>
+
